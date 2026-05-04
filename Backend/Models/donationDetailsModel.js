@@ -1,14 +1,14 @@
-import {Schema, model} from "mongoose";
+import {Schema, model , Types} from "mongoose";
 
 const donationSchema = new Schema({
   userId: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: "User",
     required: true,
     index: true
   },
   campaignId: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     ref: "Campaign",
     required: true,
     index: true
