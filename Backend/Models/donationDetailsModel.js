@@ -42,4 +42,4 @@ const donationSchema = new Schema({
 
 }, { timestamps: true , versionKey:false , strict: "throw" });
 
-export default model("Donation", donationSchema);
+export const Donation =  model("Donation", donationSchema);
