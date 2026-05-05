@@ -56,58 +56,26 @@ campaignApp.get("/:id", async (req, res) => {
   }
 });
 
-// APPROVE CAMPAIGN (ADMIN)
-
-campaignApp.put("/approve/:id", verifyToken("ADMIN"), async (req, res) => {
-  try {
-    const campaign = await Campaign.findById(req.params.id);
-
-    if (!campaign) {
-      return res.status(404).json({ message: "Campaign not found" });
-    }
-
-    campaign.status = "approved";
-    await campaign.save();
-
-    res.status(200).json({
-      message: "Campaign approved",
-      campaign
-    });
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-// REJECT CAMPAIGN
-campaignApp.put("/reject/:id", verifyToken("ADMIN"), async (req, res) => {
-  try {
-    const campaign = await Campaign.findById(req.params.id);
-
-    if (!campaign) {
-      return res.status(404).json({ message: "Campaign not found" });
-    }
-
-    campaign.status = "rejected";
-    await campaign.save();
-
-    res.status(200).json({
-      message: "Campaign rejected",
-      campaign
-    });
-
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
 
 // UPDATE CAMPAIGN
 
 campaignApp.put("/update/:id", async (req, res) => {
   try {
+    // ✅ Allowed fields only
+    const allowedUpdates = ["title", "description", "media", "deadline"];
+
+    const updates = {};
+
+    // filter only allowed fields
+    for (let key of allowedUpdates) {
+      if (req.body[key] !== undefined) {
+        updates[key] = req.body[key];
+      }
+    }
+
     const updatedCampaign = await Campaign.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updates,
       { new: true }
     );
 

@@ -1,0 +1,39 @@
+### CREATE CAMPAIGN
+POST http://localhost:5005/campaign-api/create
+Content-Type: application/json
+
+{
+  "title": "Medical Help Needed",
+  "description": "Urgent surgery required",
+  "category": "Medical",
+  "goalAmount": 50000,
+  "deadline": "2026-06-30",
+  "location": "Hyderabad",
+  "createdBy": "69f97f5b5ee87fa0030aaad5"
+}
+
+### GET ALL APPROVED CAMPAIGNS
+GET http://localhost:5005/campaign-api/
+
+### GET PENDING CAMPAIGNS (ADMIN)
+GET http://localhost:5005/campaign-api/pending
+
+### APPROVE CAMPAIGN (ADMIN)
+PUT http://localhost:5005/campaign-api/approve/69f9ad22ce84970f394d6568
+
+### REJECT CAMPAIGN (ADMIN)
+PUT http://localhost:5005/campaign-api/reject/69f9ad22ce84970f394d6568
+
+### GET SINGLE CAMPAIGN
+GET http://localhost:5005/campaign-api/PUT_CAMPAIGN_ID_HERE
+
+### UPDATE CAMPAIGN
+PUT http://localhost:5005/campaign-api/update/PUT_CAMPAIGN_ID_HERE
+Content-Type: application/json
+
+{
+  "title": "Updated Title"
+}
+
+### DELETE CAMPAIGN
+DELETE http://localhost:5005/campaign-api/delete/PUT_CAMPAIGN_ID_HERE

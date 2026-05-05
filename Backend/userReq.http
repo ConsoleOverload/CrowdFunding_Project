@@ -3,18 +3,18 @@ POST http://localhost:5005/auth-api/users
 Content-Type: application/json
 
 {
-    "name" : "keerthan",
-    "email" : "keerthan@gmail.com",
-    "password" : "123",
-    "role" : "USER"
+    "name" : "admin",
+    "email" : "admin@gmail.com",
+    "password" : "12345",
+    "role" : "ADMIN"
 }
 ### LOGIN ROUTE
 POST http://localhost:5005/auth-api/login
 Content-Type: application/json
 
 {
-    "email" : "keerthan@gmail.com",
-    "password" : "123"
+    "email" : "admin@gmail.com",
+    "password" : "12345"
 }
 
 ###

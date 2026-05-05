@@ -14,7 +14,10 @@ adminApp.get("/campaigns/pending", verifyToken("ADMIN"), async (req, res) => {
 adminApp.put("/campaigns/approve/:id", verifyToken("ADMIN"), async (req, res) => {
   const campaign = await Campaign.findByIdAndUpdate(
     req.params.id,
-    { status: "approved" },
+    { 
+        status: "approved",
+        isVerified : true
+     },
     { new: true }
   );
 
@@ -25,7 +28,10 @@ adminApp.put("/campaigns/approve/:id", verifyToken("ADMIN"), async (req, res) =>
 adminApp.put("/campaigns/reject/:id", verifyToken("ADMIN"), async (req, res) => {
   const campaign = await Campaign.findByIdAndUpdate(
     req.params.id,
-    { status: "rejected" },
+    { 
+        status: "rejected",
+        isVerified : false
+     },
     { new: true }
   );
 
