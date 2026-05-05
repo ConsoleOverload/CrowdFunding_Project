@@ -1,9 +1,21 @@
+### REGISTER ROUTE
 POST http://localhost:5005/auth-api/users
-
 Content-Type: application/json
 
 {
-    "name" : "kaustubh",
-    "email" : "kaustubh@gmail.com",
-    "password" : "12345"
+    "name" : "keerthan",
+    "email" : "keerthan@gmail.com",
+    "password" : "123",
+    "role" : "USER"
 }
+### LOGIN ROUTE
+POST http://localhost:5005/auth-api/login
+Content-Type: application/json
+
+{
+    "email" : "keerthan@gmail.com",
+    "password" : "123"
+}
+
+###
+GET http://localhost:5005/auth-api/logout
