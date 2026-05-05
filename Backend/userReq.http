@@ -1,0 +1,9 @@
+POST http://localhost:5005/auth-api/users
+
+Content-Type: application/json
+
+{
+    "name" : "kaustubh",
+    "email" : "kaustubh@gmail.com",
+    "password" : "12345"
+}

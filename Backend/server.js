@@ -1,14 +1,24 @@
-import exp from "express"
+import exp from 'express'
 import { config } from "dotenv";
 import { connect } from "mongoose";
 import cookieParser from "cookie-parser";
+import {userApp} from  "./APIs/userApi.js";
 import cors from 'cors'
+import { commonApp } from "./APIs/commonApi.js";
 config();
-const app = exp()
+//body parser
+const app = exp();
+
 app.use(cors({
-    origin:['http://localhost:5173'],
-    credentials:true
-}))
+  origin:['http://localhost:5173'],
+  credentials:true
+}));
+
+app.use(exp.json());
+app.use(cookieParser());
+
+app.use("/user-api", userApp);
+app.use("/auth-api", commonApp);
 //connect to db
 const connectDB = async () => {
   try {
@@ -57,3 +67,4 @@ app.use((err, req, res, next) => {
   //send server side error
   res.status(500).json({ message: "error occurred", error: "Server side error" });
 });
+export default app;
