@@ -12,6 +12,6 @@ userApp.post('/register',async(req,res)=>{
 
 
 
-
+//Displaying profile data 
 
 

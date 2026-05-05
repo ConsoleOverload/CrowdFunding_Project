@@ -1,0 +1,48 @@
+### CREATE CAMPAIGN
+
+POST http://localhost:5005/campaign-api/create
+Content-Type: application/json
+
+{
+  "title": "Education Support",
+  "description": "Need funds for college fees",
+  "goalAmount": 50000,
+  "deadline": "2026-12-31",
+  "createdBy": "64abc123abc123abc123abcd"
+}
+
+### GET ALL APPROVED CAMPAIGNS
+
+GET http://localhost:5005/campaign-api/campaigns/
+
+
+### GET SINGLE CAMPAIGN
+
+GET http://localhost:5005/campaign-api/campaigns/CAMPAIGN_ID
+
+
+### APPROVE CAMPAIGN (ADMIN)
+
+
+PUT http://localhost:5005/campaign-api/campaigns/approve/CAMPAIGN_ID
+
+
+### UPDATE CAMPAIGN
+
+PUT http://localhost:5005/campaign-api/campaigns/update/CAMPAIGN_ID
+Content-Type: application/json
+
+{
+  "title": "Updated Campaign Title",
+  "goalAmount": 75000
+}
+
+
+### DELETE CAMPAIGN
+
+DELETE http://localhost:5005/campaign-api/campaigns/delete/CAMPAIGN_ID
+
+
+### GET CAMPAIGNS BY USER
+
+GET http://localhost:5005/campaign-api/campaigns/user/USER_ID

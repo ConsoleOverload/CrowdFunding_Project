@@ -6,7 +6,8 @@ Content-Type: application/json
     "name" : "keerthan",
     "email" : "keerthan@gmail.com",
     "password" : "123",
-    "role" : "USER"
+    "role" : "USER",
+    "currency": ""
 }
 ### LOGIN ROUTE
 POST http://localhost:5005/auth-api/login
