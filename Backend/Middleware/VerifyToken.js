@@ -7,7 +7,7 @@ export const verifyToken = (...allowedRoles) => {
   return (req, res, next) => {
     try {
       //get token from cookie
-      const token = req.cookies?.token; // { token : asdasd}
+      const token = req.cookies?.token;
       //check token existed or not
       if (!token) {
         return res.status(401).json({ message: "Please login first" });
