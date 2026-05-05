@@ -23,3 +23,19 @@ GET http://localhost:5005/auth-api/logout
 GET http://localhost:5005/user-api/users
 ###
 DELETE  http://localhost:5005/user-api/users
+###update password
+PUT http://localhost:5005/user-api/users/password
+Content-Type: application/json
+
+{
+    "oldPassword":"123",
+    "newPassword":"1234"
+}
+###update profile
+PUT http://localhost:5005/user-api/users
+Content-Type: application/json
+
+{
+    "name":"keerthanReddy",
+    "email":"keerthanReddy@gmail.com"
+}
