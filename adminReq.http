@@ -8,8 +8,7 @@ Content-Type: application/json
   "category": "Medical",
   "goalAmount": 50000,
   "deadline": "2026-06-30",
-  "location": "Hyderabad",
-  "createdBy": "69f97f5b5ee87fa0030aaad5"
+  "location": "Hyderabad"
 }
 
 ### GET ALL APPROVED CAMPAIGNS

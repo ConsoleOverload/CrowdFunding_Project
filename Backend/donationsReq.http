@@ -1,0 +1,8 @@
+### DONATING AMOUNT
+POST http://localhost:5005/donation-api/donate
+Content-Type: application/json
+
+{
+    "campaignId":"",
+    ""
+}
