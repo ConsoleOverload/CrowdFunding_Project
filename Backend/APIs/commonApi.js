@@ -12,7 +12,7 @@ export const commonApp = exp.Router();
 // ================= REGISTER =================
 commonApp.post("/users", async (req, res) => {
   try {
-    const allowedRoles = ["USER", "ADMIN"];
+    const allowedRoles = ["USER"];
     const newUser = req.body;
     console.log(newUser)
     // check role
