@@ -23,6 +23,11 @@ const userSchema = new Schema(
     },
     profileImageURL: String,
 
+    Country:{
+      type:String,
+      default:"INDIA"
+    },
+
     isUserActive: {
       type: Boolean,
       default: true
