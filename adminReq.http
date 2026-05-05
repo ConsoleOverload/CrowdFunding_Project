@@ -19,7 +19,7 @@ GET http://localhost:5005/campaign-api/
 GET http://localhost:5005/campaign-api/pending
 
 ### APPROVE CAMPAIGN (ADMIN)
-PUT http://localhost:5005/campaign-api/approve/69f9ad22ce84970f394d6568
+PUT http://localhost:5005/campaign-api/approve/69f9bf7017ccaf9aac9504dd
 
 ### REJECT CAMPAIGN (ADMIN)
 PUT http://localhost:5005/campaign-api/reject/69f9ad22ce84970f394d6568
@@ -36,4 +36,4 @@ Content-Type: application/json
 }
 
 ### DELETE CAMPAIGN
-DELETE http://localhost:5005/campaign-api/delete/PUT_CAMPAIGN_ID_HERE
+DELETE http://localhost:5005/campaign-api/delete/69f9bda317ccaf9aac9504dc

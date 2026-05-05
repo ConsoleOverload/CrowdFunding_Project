@@ -26,11 +26,20 @@ campaignApp.post("/create", async (req, res) => {
   }
 });
 
-// GET ALL CAMPAIGNS (only approved)
 
+//Search for keywords route or all approved routes
 campaignApp.get("/", async (req, res) => {
   try {
-    const campaigns = await Campaign.find({ status: "approved" });
+    const { search } = req.query;
+
+    let query = { status: "approved" };
+
+    // 🔍 If search exists → filter by title
+    if (search) {
+      query.title = { $regex: search, $options: "i" }; // case-insensitive
+    }
+
+    const campaigns = await Campaign.find(query);
 
     res.status(200).json(campaigns);
 
@@ -39,13 +48,15 @@ campaignApp.get("/", async (req, res) => {
   }
 });
 
+
+
 // GET SINGLE CAMPAIGN
 
 campaignApp.get("/:id", async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id);
 
-    if (!campaign) {
+    if (!campaign || campaign.status !== "approved") {
       return res.status(404).json({ message: "Campaign not found" });
     }
 

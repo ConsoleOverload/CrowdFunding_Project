@@ -4,11 +4,11 @@ POST http://localhost:5005/campaign-api/create
 Content-Type: application/json
 
 {
-  "title": "Education Support",
-  "description": "Need funds for college fees",
+  "title": "Urgent help needed for keerthan",
+  "description": "Need funds",
   "goalAmount": 50000,
   "deadline": "2026-12-31",
-  "createdBy": "64abc123abc123abc123abcd"
+  "createdBy": "69f97e4c5ee87fa0030aaad4"
 }
 
 ### GET ALL APPROVED CAMPAIGNS
@@ -24,7 +24,7 @@ GET http://localhost:5005/campaign-api/campaigns/CAMPAIGN_ID
 ### APPROVE CAMPAIGN (ADMIN)
 
 
-PUT http://localhost:5005/campaign-api/campaigns/approve/CAMPAIGN_ID
+PUT http://localhost:5005/campaign-api/campaigns/approve/69f9bda317ccaf9aac9504dc
 
 
 ### UPDATE CAMPAIGN
@@ -36,6 +36,9 @@ Content-Type: application/json
   "title": "Updated Campaign Title",
   "goalAmount": 75000
 }
+
+### SEARCH MEDICAL
+GET http://localhost:5005/campaign-api/?search=keerthan
 
 
 ### DELETE CAMPAIGN
