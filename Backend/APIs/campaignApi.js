@@ -58,7 +58,7 @@ campaignApp.get("/:id", async (req, res) => {
 
 // APPROVE CAMPAIGN (ADMIN)
 
-campaignApp.put("/approve/:id", async (req, res) => {
+campaignApp.put("/approve/:id", verifyToken("ADMIN"), async (req, res) => {
   try {
     const campaign = await Campaign.findById(req.params.id);
 
@@ -71,6 +71,28 @@ campaignApp.put("/approve/:id", async (req, res) => {
 
     res.status(200).json({
       message: "Campaign approved",
+      campaign
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// REJECT CAMPAIGN
+campaignApp.put("/reject/:id", verifyToken("ADMIN"), async (req, res) => {
+  try {
+    const campaign = await Campaign.findById(req.params.id);
+
+    if (!campaign) {
+      return res.status(404).json({ message: "Campaign not found" });
+    }
+
+    campaign.status = "rejected";
+    await campaign.save();
+
+    res.status(200).json({
+      message: "Campaign rejected",
       campaign
     });
 
@@ -97,6 +119,18 @@ campaignApp.put("/update/:id", async (req, res) => {
       message: "Campaign updated successfully",
       data: updatedCampaign
     });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// GET PENDING CAMPAIGNS 
+campaignApp.get("/pending", verifyToken("ADMIN"), async (req, res) => {
+  try {
+    const campaigns = await Campaign.find({ status: "pending" });
+
+    res.status(200).json(campaigns);
 
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -6,6 +6,7 @@ import {userApp} from  "./APIs/userApi.js";
 import cors from 'cors'
 import { commonApp } from "./APIs/commonApi.js";
 import campaignApp from './APIs/campaignApi.js';
+import { adminApp } from './APIs/adminApi.js';
 config();
 //body parser
 const app = exp();
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use("/user-api", userApp);
 app.use("/auth-api", commonApp);
 app.use("/campaign-api",campaignApp)
+app.use("/admin-api",adminApp)
 //connect to db
 const connectDB = async () => {
   try {
