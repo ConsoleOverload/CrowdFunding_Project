@@ -1,0 +1,17 @@
+POST http://localhost:5005/payment-api/create-order
+Content-Type: application/json
+
+{
+    "amount": 500,
+  "campaignId": "69facd9a752720299acf672c"
+}
+###
+POST http://localhost:5000/payment-api/verify-payment
+Content-Type: application/json
+
+{
+  "razorpay_order_id": "order_ABC123",
+  "razorpay_payment_id": "pay_123456",
+  "razorpay_signature": "test_signature",
+  "donationId": "DONATION_ID"
+}
