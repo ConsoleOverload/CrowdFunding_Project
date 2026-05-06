@@ -38,7 +38,7 @@ const campaignSchema = new Schema(
 
     status: {
       type: String,
-      enum: ["draft", "pending", "approved", "rejected", "completed"],
+      enum: ["draft", "pending", "approved", "rejected", "completed","deleted"],
       default: "pending"
     },
 
