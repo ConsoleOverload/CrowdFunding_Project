@@ -3,7 +3,9 @@ import { verifyToken } from "../Middleware/verifyToken.js";
 import { Donation } from "../Models/donationDetailsModel.js";
 import { Campaign } from "../Models/campaignModel.js";
 import { userModel } from "../Models/userModel.js";
+
 const donationApp = exp.Router();
+
 
 // MAKE DONATION
 donationApp.post(
@@ -33,11 +35,33 @@ donationApp.post(
         });
       }
 
-      // only approved campaigns
+      // only approved campaigns can receive donations
       if (campaign.status !== "approved") {
         return res.status(400).json({
-          message: "Campaign not approved"
+          message: "Campaign not approved for donations"
         });
+      }
+
+      // check if goal already reached
+      if (campaign.raisedAmount >= campaign.goalAmount) {
+
+        return res.status(400).json({
+          message: "Funding goal already reached"
+        });
+
+      }
+
+      // calculate remaining amount
+      const remainingAmount =
+        campaign.goalAmount - campaign.raisedAmount;
+
+      // prevent overfunding
+      if (amount > remainingAmount) {
+
+        return res.status(400).json({
+          message: `Remaining amount is ₹${remainingAmount}. Please donate ₹${remainingAmount} or less.`
+        });
+
       }
 
       // create donation
@@ -61,6 +85,13 @@ donationApp.post(
       campaign.raisedAmount += amount;
 
       campaign.stats.donorCount += 1;
+
+      // mark campaign completed if goal reached
+      if (campaign.raisedAmount === campaign.goalAmount) {
+
+        campaign.status = "completed";
+
+      }
 
       await campaign.save();
 
@@ -88,6 +119,7 @@ donationApp.post(
 
     }
 });
+
 
 // GET DONATIONS OF A CAMPAIGN
 donationApp.get(
