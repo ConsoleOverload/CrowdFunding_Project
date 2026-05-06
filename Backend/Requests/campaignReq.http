@@ -3,25 +3,25 @@ POST http://localhost:5005/campaign-api/create
 Content-Type: application/json
 
 {
-  "title": "Urgent Medical Help",
-  "description": "Need funds for surgery",
-  "category": "Medical",
-  "goalAmount": 50000,
-  "deadline": "2026-12-31",
-  "location": "Hyderabad"
+  "title": "STUDY FUNDS REQUIRED",
+  "description": "Need funds for higher studies",
+  "category": "Financial",
+  "goalAmount": 500060,
+  "deadline": "2026-12-01",
+  "location": "Ghakesar"
 }
 
 ### GET ALL APPROVED CAMPAIGNS
 GET http://localhost:5005/campaign-api/
 
 ### SEARCH CAMPAIGNS
-GET http://localhost:5005/campaign-api/?search=medical
+GET http://localhost:5005/campaign-api/?search=title
 
 ### GET SINGLE CAMPAIGN
-GET http://localhost:5005/campaign-api/PUT_CAMPAIGN_ID_HERE
+GET http://localhost:5005/campaign-api/69fad9f3cfa16ec0a01cd43b
 
 ### UPDATE CAMPAIGN
-PUT http://localhost:5005/campaign-api/update/PUT_CAMPAIGN_ID_HERE
+PUT http://localhost:5005/campaign-api/update/69fad9f3cfa16ec0a01cd43b
 Content-Type: application/json
 
 {
@@ -30,4 +30,7 @@ Content-Type: application/json
 }
 
 ### DELETE CAMPAIGN
-DELETE http://localhost:5005/campaign-api/delete/PUT_CAMPAIGN_ID_HERE
+PATCH http://localhost:5005/campaign-api/delete/69fae138b6c8c19b2e46911d
+
+###RESTORE CAMPAIGN
+PUT http://localhost:5005/campaign-api/restore/69fad9f3cfa16ec0a01cd43b
