@@ -1,0 +1,28 @@
+### REGISTER ADMIN
+POST http://localhost:5005/auth-api/users
+Content-Type: application/json
+
+{
+  "name": "admin",
+  "email": "admin@gmail.com",
+  "password": "12345",
+  "role": "ADMIN"
+}
+
+
+### LOGIN ADMIN
+POST http://localhost:5005/auth-api/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "12345"
+}
+### GET PENDING CAMPAIGNS
+GET http://localhost:5005/admin-api/campaigns/pending
+
+### APPROVE CAMPAIGN
+PUT http://localhost:5005/admin-api/campaigns/approve/69f9bf7017ccaf9aac9504dd
+
+### REJECT CAMPAIGN
+PUT http://localhost:5005/admin-api/campaigns/reject/PUT_CAMPAIGN_ID_HERE

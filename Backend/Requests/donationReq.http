@@ -1,0 +1,23 @@
+### LOGIN USER
+POST http://localhost:5005/auth-api/login
+Content-Type: application/json
+
+{
+  "email": "kaustubh@gmail.com",
+  "password": "12345"
+}
+
+### MAKE DONATION
+POST http://localhost:5005/donation-api/donate/69f9bf7017ccaf9aac9504dd
+Content-Type: application/json
+
+{
+  "amount": 500,
+  "isAnonymous": false
+}
+
+### GET DONATIONS OF CAMPAIGN
+GET http://localhost:5005/donation-api/campaign/PUT_CAMPAIGN_ID_HERE
+
+### GET MY DONATIONS
+GET http://localhost:5005/donation-api/my-donations
