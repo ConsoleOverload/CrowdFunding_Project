@@ -176,6 +176,55 @@ campaignApp.patch("/delete/:id",
     }
 });
 
+// RESTORE CAMPAIGN
+campaignApp.put("/restore/:id",
+  verifyToken("USER", "ADMIN"),
+  async (req, res) => {
+    try {
+      const campaign = await Campaign.findById(req.params.id);
+
+      if (!campaign) {
+        return res.status(404).json({ message: "Campaign not found" });
+      }
+
+      // Only allow restore if currently deleted
+      if (campaign.status !== "deleted") {
+        return res.status(400).json({ message: "Campaign is not deleted" });
+      }
+
+      let updates = {};
+
+      if (campaign.createdBy.toString() === req.user.id) {
+        // if Creator restores remains as not verified
+        updates = {
+          status: "pending",
+          "verification.isVerified": false
+        };
+      } else if (req.user.role === "ADMIN") {
+        //if Admin restored → verified
+        updates = {
+          status: "approved",
+          "verification.isVerified": true
+        };
+      } else {
+        return res.status(403).json({ message: "Not authorized to restore this campaign" });
+      }
+
+      const restoredCampaign = await Campaign.findByIdAndUpdate(
+        req.params.id,
+        updates,
+        { new: true }
+      );
+
+      res.status(200).json({
+        message: "Campaign restored successfully",
+        data: restoredCampaign
+      });
+
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+});
 
 
 

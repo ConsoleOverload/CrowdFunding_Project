@@ -1,8 +1,0 @@
-### GET PENDING CAMPAIGNS
-GET http://localhost:5005/admin-api/campaigns/pending
-
-### APPROVE CAMPAIGN
-PUT http://localhost:5005/admin-api/campaigns/approve/PUT_CAMPAIGN_ID_HERE
-
-### REJECT CAMPAIGN
-PUT http://localhost:5005/admin-api/campaigns/reject/PUT_CAMPAIGN_ID_HERE

@@ -3,9 +3,9 @@ POST http://localhost:5005/auth-api/users
 Content-Type: application/json
 
 {
-  "name": "admin",
-  "email": "admin@gmail.com",
-  "password": "12345",
+  "name": "admin1",
+  "email": "admin1@gmail.com",
+  "password": "ADMIN1",
   "role": "ADMIN"
 }
 
@@ -15,14 +15,23 @@ POST http://localhost:5005/auth-api/login
 Content-Type: application/json
 
 {
-  "email": "admin@gmail.com",
-  "password": "12345"
+  "email": "admin1@gmail.com",
+  "password": "ADMIN1"
 }
+
+
+### LOGOUT
+GET http://localhost:5005/auth-api/logout
+
+
 ### GET PENDING CAMPAIGNS
 GET http://localhost:5005/admin-api/campaigns/pending
 
 ### APPROVE CAMPAIGN
-PUT http://localhost:5005/admin-api/campaigns/approve/69f9bf7017ccaf9aac9504dd
+PUT http://localhost:5005/admin-api/campaigns/approve/69fae138b6c8c19b2e46911d
 
 ### REJECT CAMPAIGN
-PUT http://localhost:5005/admin-api/campaigns/reject/PUT_CAMPAIGN_ID_HERE
+PUT http://localhost:5005/admin-api/campaigns/reject/69facc7d17f9ea50c0313c86
+
+### CHECK AUTH
+GET http://localhost:5005/auth-api/check-auth

@@ -3,11 +3,12 @@ POST http://localhost:5005/auth-api/users
 Content-Type: application/json
 
 {
-  "name": "keerthan",
-  "email": "keerthan@gmail.com",
-  "password": "12345",
+  "name": "user2",
+  "email": "user2@gmail.com",
+  "password": "user2",
   "role": "USER"
 }
+
 
 
 ### LOGIN USER
@@ -15,11 +16,10 @@ POST http://localhost:5005/auth-api/login
 Content-Type: application/json
 
 {
-  "email": "kaustubh@gmail.com",
-  "password": "12345"
+  "email": "user2@gmail.com",
+  "password": "user2"
 }
-### CHECK AUTH
-GET http://localhost:5005/auth-api/check-auth
+
 
 ### LOGOUT
 GET http://localhost:5005/auth-api/logout
@@ -32,7 +32,7 @@ PUT http://localhost:5005/user-api/users
 Content-Type: application/json
 
 {
-  "name": "Keerthan Reddy",
+  "name": "user2",
   "profileImageURL": "https://dummyimage.com/profile.png"
 }
 
@@ -41,8 +41,8 @@ PUT http://localhost:5005/auth-api/password
 Content-Type: application/json
 
 {
-  "currentPassword": "12345",
-  "newPassword": "123456"
+  "currentPassword": "user1",
+  "newPassword": "user2"
 }
 
 ### DELETE USER
