@@ -16,7 +16,7 @@ adminApp.put("/campaigns/approve/:id", verifyToken("ADMIN"), async (req, res) =>
     req.params.id,
     { 
         status: "approved",
-        isVerified : true
+        "verification.isVerified": true
      },
     { new: true }
   );
@@ -30,8 +30,8 @@ adminApp.put("/campaigns/reject/:id", verifyToken("ADMIN"), async (req, res) => 
     req.params.id,
     { 
         status: "rejected",
-        isVerified : false
-     },
+        "verification.isVerified": false       
+    },
     { new: true }
   );
 

@@ -1,51 +1,33 @@
 ### CREATE CAMPAIGN
-
 POST http://localhost:5005/campaign-api/create
 Content-Type: application/json
 
 {
-  "title": "Urgent help needed for keerthan",
-  "description": "Need funds",
+  "title": "Urgent Medical Help",
+  "description": "Need funds for surgery",
+  "category": "Medical",
   "goalAmount": 50000,
   "deadline": "2026-12-31",
-  "createdBy": "69f97e4c5ee87fa0030aaad4"
+  "location": "Hyderabad"
 }
 
 ### GET ALL APPROVED CAMPAIGNS
+GET http://localhost:5005/campaign-api/
 
-GET http://localhost:5005/campaign-api/campaigns/
-
+### SEARCH CAMPAIGNS
+GET http://localhost:5005/campaign-api/?search=medical
 
 ### GET SINGLE CAMPAIGN
-
-GET http://localhost:5005/campaign-api/campaigns/CAMPAIGN_ID
-
-
-### APPROVE CAMPAIGN (ADMIN)
-
-
-PUT http://localhost:5005/campaign-api/campaigns/approve/69f9bda317ccaf9aac9504dc
-
+GET http://localhost:5005/campaign-api/PUT_CAMPAIGN_ID_HERE
 
 ### UPDATE CAMPAIGN
-
-PUT http://localhost:5005/campaign-api/campaigns/update/CAMPAIGN_ID
+PUT http://localhost:5005/campaign-api/update/PUT_CAMPAIGN_ID_HERE
 Content-Type: application/json
 
 {
   "title": "Updated Campaign Title",
-  "goalAmount": 75000
+  "description": "Updated Description"
 }
 
-### SEARCH MEDICAL
-GET http://localhost:5005/campaign-api/?search=keerthan
-
-
 ### DELETE CAMPAIGN
-
-DELETE http://localhost:5005/campaign-api/campaigns/delete/CAMPAIGN_ID
-
-
-### GET CAMPAIGNS BY USER
-
-GET http://localhost:5005/campaign-api/campaigns/user/USER_ID
+DELETE http://localhost:5005/campaign-api/delete/PUT_CAMPAIGN_ID_HERE
