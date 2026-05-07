@@ -1,23 +1,58 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-return ( <nav className="flex justify-between items-center px-8 py-4 shadow-md bg-white">
+  const navigate = useNavigate();
 
-  <h1 className="text-2xl font-bold text-blue-600">
-    CrowdFund
-  </h1>
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-  <div className="flex gap-6">
-    <Link to="/">Home</Link>
-    <Link to="/campaigns">Campaigns</Link>
-    <Link to="/create">Start Fundraiser</Link>
-    <Link to="/login">Login</Link>
-  </div>
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    navigate("/");
+  };
 
-</nav>
+  return (
+    <nav className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
 
+      <h1 className="text-3xl font-bold text-blue-600">
+        CrowdFund
+      </h1>
 
-);
+      <div className="flex gap-6 items-center">
+
+        {/* HOME */}
+        <Link to="/home">Home</Link>
+
+        {/* CAMPAIGNS */}
+        <Link to="/campaigns">Campaigns</Link>
+
+        {/* NORMAL USER ONLY */}
+        {currentUser?.role === "user" && (
+          <Link to="/create">
+            Start Fundraiser
+          </Link>
+        )}
+
+        {/* ADMIN ONLY */}
+        {currentUser?.role === "admin" && (
+          <Link to="/admin">
+            Admin
+          </Link>
+        )}
+
+        {/* PROFILE */}
+        <Link to="/profile">Profile</Link>
+
+        {/* LOGOUT */}
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl"
+        >
+          Logout
+        </button>
+
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

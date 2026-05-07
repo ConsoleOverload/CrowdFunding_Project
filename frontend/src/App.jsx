@@ -4,23 +4,46 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Campaigns from "./pages/Campaigns";
-import CampaignDetails from "./pages/CampaignDetails";
 import CreateCampaign from "./pages/CreateCampaign";
-import Dashboard from "./pages/Dashboard";
+import CampaignDetails from "./pages/CampaignDetails";
+import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
+
 
 function App() {
-return ( <BrowserRouter> <Routes>
-<Route path="/" element={<Home />} />
-<Route path="/login" element={<Login />} />
-<Route path="/signup" element={<Signup />} />
-<Route path="/campaigns" element={<Campaigns />} />
-<Route path="/campaign/:id" element={<CampaignDetails />} />
-<Route path="/create" element={<CreateCampaign />} />
-<Route path="/dashboard" element={<Dashboard />} />
-<Route path="/admin" element={<Admin />} />
-<Route path="*" element={<NotFound />} /> </Routes> </BrowserRouter>
+return ( <BrowserRouter>
+
+  <Routes>
+
+    {/* First Page */}
+    <Route path="/" element={<Login />} />
+
+    {/* Signup */}
+    <Route path="/signup" element={<Signup />} />
+
+    {/* Home */}
+    <Route path="/home" element={<Home />} />
+
+    {/* Campaigns */}
+    <Route path="/campaigns" element={<Campaigns />} />
+
+    {/* Create Campaign */}
+    <Route path="/create" element={<CreateCampaign />} />
+
+    {/* Campaign Details */}
+    <Route path="/campaign/:id" element={<CampaignDetails />} />
+
+    <Route path="/profile" element={<Profile />} />
+
+    <Route path="/admin" element={<Admin />} />
+
+
+
+  </Routes>
+
+</BrowserRouter>
+
+
 );
 }
 
