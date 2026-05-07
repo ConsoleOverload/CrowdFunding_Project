@@ -12,9 +12,10 @@ function CreateCampaign() {
     title: "",
     description: "",
     goal: "",
-    image: "",
+    image: null,
   });
 
+  // Handle text inputs
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,6 +23,28 @@ function CreateCampaign() {
     });
   };
 
+  // Handle image upload
+  const handleImageChange = (e) => {
+
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+
+      setFormData({
+        ...formData,
+        image: reader.result,
+      });
+
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Submit form
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -75,7 +98,7 @@ function CreateCampaign() {
             className="mt-10 space-y-6"
           >
 
-            {/* Title */}
+            {/* Campaign Title */}
             <div>
 
               <label className="block mb-2 text-gray-700">
@@ -113,7 +136,7 @@ function CreateCampaign() {
 
             </div>
 
-            {/* Goal */}
+            {/* Goal Amount */}
             <div>
 
               <label className="block mb-2 text-gray-700">
@@ -132,26 +155,43 @@ function CreateCampaign() {
 
             </div>
 
-            {/* Image */}
+            {/* Upload Image */}
             <div>
 
               <label className="block mb-2 text-gray-700">
-                Image URL
+                Upload Campaign Image
               </label>
 
               <input
-                type="text"
-                name="image"
-                placeholder="Paste image URL"
-                value={formData.image}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3"
                 required
               />
 
             </div>
 
-            {/* Button */}
+            {/* Image Preview */}
+            {formData.image && (
+
+              <div>
+
+                <p className="mb-2 text-gray-700">
+                  Image Preview
+                </p>
+
+                <img
+                  src={formData.image}
+                  alt="preview"
+                  className="w-full h-64 object-cover rounded-xl"
+                />
+
+              </div>
+
+            )}
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl text-lg"
