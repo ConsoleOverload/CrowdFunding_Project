@@ -1,75 +1,139 @@
-import Navbar from "../components/Navbar";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 function Signup() {
-return ( <div className="min-h-screen bg-gray-100">
 
-  <Navbar />
+  const navigate = useNavigate();
 
-  <div className="flex items-center justify-center py-20 px-4">
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-    <div className="bg-white shadow-xl rounded-2xl p-10 w-full max-w-md">
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-      <h1 className="text-4xl font-bold text-center text-gray-800">
-        Create Account
-      </h1>
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-      <p className="text-center text-gray-500 mt-3">
-        Join and start making a difference.
-      </p>
+    const newUser = {
+      ...formData,
+      role: "user",
+    };
 
-      <form className="mt-8 space-y-5">
+    // Save user
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify(newUser)
+    );
 
-        <div>
-          <label className="block mb-2 text-gray-700">
-            Full Name
-          </label>
+    // Save registered user
+    localStorage.setItem(
+      "registeredUser",
+      JSON.stringify(newUser)
+    );
 
-          <input
-            type="text"
-            placeholder="Enter your name"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+    alert("Signup Successful!");
 
-        <div>
-          <label className="block mb-2 text-gray-700">
-            Email
-          </label>
+    navigate("/home");
+  };
 
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-        <div>
-          <label className="block mb-2 text-gray-700">
-            Password
-          </label>
+      <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md">
 
-          <input
-            type="password"
-            placeholder="Enter your password"
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <h1 className="text-5xl font-bold text-center text-gray-800">
+          Create Account
+        </h1>
 
-        <button
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-lg transition"
+        <p className="text-center text-gray-500 mt-4">
+          Join and start supporting causes.
+        </p>
+
+        <form
+          onSubmit={handleSubmit}
+          className="mt-10 space-y-5"
         >
-          Sign Up
-        </button>
 
-      </form>
+          <div>
+            <label className="block mb-2">
+              Name
+            </label>
+
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full border border-gray-300 px-4 py-3 rounded-xl outline-none"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2">
+              Email
+            </label>
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border border-gray-300 px-4 py-3 rounded-xl outline-none"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2">
+              Password
+            </label>
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border border-gray-300 px-4 py-3 rounded-xl outline-none"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-lg"
+          >
+            Sign Up
+          </button>
+
+        </form>
+
+        <p className="text-center mt-6 text-gray-600">
+          Already have an account?{" "}
+
+          <Link
+            to="/"
+            className="text-blue-600 font-semibold"
+          >
+            Login
+          </Link>
+
+        </p>
+
+      </div>
 
     </div>
-
-  </div>
-
-</div>
-
-);
+  );
 }
 
 export default Signup;
