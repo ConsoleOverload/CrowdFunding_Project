@@ -71,8 +71,8 @@ userApp.put("/users",
          updates.name = req.body.name;
       if (req.body.email) 
         updates.email = req.body.email;
-      if (req.body.profilePic) 
-        updates.profilePic = req.body.profilePic;
+      if (req.body.profileImageURL) 
+        updates.profileImageURL = req.body.profileImageURL;
 
       const user = await userModel.findByIdAndUpdate(
         req.user.id,
