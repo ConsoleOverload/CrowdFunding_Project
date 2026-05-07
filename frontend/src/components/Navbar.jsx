@@ -1,56 +1,81 @@
 import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+
   const navigate = useNavigate();
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const loggedInUser = JSON.parse(
+    localStorage.getItem("loggedInUser")
+  );
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
+
+    localStorage.removeItem("loggedInUser");
+
     navigate("/");
   };
 
   return (
-    <nav className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
 
-      <h1 className="text-3xl font-bold text-blue-600">
+    <nav className="flex justify-between items-center px-8 py-5 bg-white shadow-md">
+
+      {/* LOGO */}
+
+      <Link
+        to="/"
+        className="text-4xl font-bold text-blue-600"
+      >
         CrowdFund
-      </h1>
+      </Link>
 
-      <div className="flex gap-6 items-center">
+      {/* NAV LINKS */}
 
-        {/* HOME */}
-        <Link to="/home">Home</Link>
+      <div className="flex items-center gap-8 text-lg font-medium">
 
-        {/* CAMPAIGNS */}
-        <Link to="/campaigns">Campaigns</Link>
+        <Link to="/home" className="hover:text-blue-600">
+          Home
+        </Link>
 
-        {/* NORMAL USER ONLY */}
-        {currentUser?.role === "user" && (
-          <Link to="/create">
-            Start Fundraiser
-          </Link>
+        <Link to="/campaigns" className="hover:text-blue-600">
+          Campaigns
+        </Link>
+
+        {/* BEFORE LOGIN */}
+
+        {!loggedInUser && (
+          <>
+            <Link to="/login" className="hover:text-blue-600">
+              Login
+            </Link>
+
+            <Link
+              to="/signup"
+              className="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700"
+            >
+              Sign Up
+            </Link>
+          </>
         )}
 
-        {/* ADMIN ONLY */}
-        {currentUser?.role === "admin" && (
-          <Link to="/admin">
-            Admin
-          </Link>
+        {/* AFTER LOGIN */}
+
+        {loggedInUser && (
+          <>
+            <Link to="/profile" className="hover:text-blue-600">
+              Profile
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-5 py-2 rounded-xl hover:bg-red-600"
+            >
+              Logout
+            </button>
+          </>
         )}
-
-        {/* PROFILE */}
-        <Link to="/profile">Profile</Link>
-
-        {/* LOGOUT */}
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl"
-        >
-          Logout
-        </button>
 
       </div>
+
     </nav>
   );
 }
