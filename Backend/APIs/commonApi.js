@@ -70,11 +70,12 @@ commonApp.post("/login", async (req, res) => {
       secure: false,
       sameSite: "lax",
     });
-
+    const userWithoutPassword = user.toObject();
+    delete userWithoutPassword.password;
     res.status(200).json({
       message: "login success",
-      payload: user,
-    });
+      payload: userWithoutPassword,
+  });
   } catch (err) {
     res.status(500).json({
       message: "error occured",

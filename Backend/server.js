@@ -8,6 +8,7 @@ import { commonApp } from "./APIs/commonApi.js";
 import campaignApp from './APIs/campaignApi.js';
 import { adminApp } from './APIs/adminApi.js';
 import donationApp from './APIs/donationApi.js';
+import { razorpayApp } from "./APIs/razorpayApi.js";
 config();
 //body parser
 const app = exp();
@@ -25,6 +26,7 @@ app.use("/auth-api", commonApp);
 app.use("/campaign-api",campaignApp)
 app.use("/admin-api",adminApp)
 app.use("/donation-api",donationApp)
+app.use("/razorpay-api", razorpayApp);
 //connect to db
 const connectDB = async () => {
   try {

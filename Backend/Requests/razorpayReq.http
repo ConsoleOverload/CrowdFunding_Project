@@ -1,17 +1,17 @@
-POST http://localhost:5005/payment-api/create-order
+POST http://localhost:5005/razorpay-api/create-order
 Content-Type: application/json
 
 {
     "amount": 500,
-  "campaignId": "69facd9a752720299acf672c"
+  "campaignId": "69f9a1eb8f0093712941454a"
 }
 ###
-POST http://localhost:5000/payment-api/verify-payment
+POST http://localhost:5005/razorpay-api/verify-payment
 Content-Type: application/json
 
 {
-  "razorpay_order_id": "order_ABC123",
+  "razorpay_order_id": "order_SmLdwXRGOk5d5O",
   "razorpay_payment_id": "pay_123456",
   "razorpay_signature": "test_signature",
-  "donationId": "DONATION_ID"
+  "donationId": "69fc19db44baad00035c408b"
 }
