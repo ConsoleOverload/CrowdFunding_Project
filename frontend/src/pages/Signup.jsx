@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
 
@@ -12,73 +12,91 @@ function Signup() {
   });
 
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSignup = (e) => {
+
     e.preventDefault();
 
-    const newUser = {
-      ...formData,
-      role: "user",
-    };
+    // GET EXISTING USERS
+    const users =
+      JSON.parse(localStorage.getItem("users")) || [];
 
-    // Save user
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify(newUser)
+    // CHECK EXISTING EMAIL
+    const existingUser = users.find(
+      (user) => user.email === formData.email
     );
 
-    // Save registered user
+    if (existingUser) {
+
+      alert("User already exists");
+
+      return;
+    }
+
+    // SAVE USER
+    users.push(formData);
+
     localStorage.setItem(
-      "registeredUser",
-      JSON.stringify(newUser)
+      "users",
+      JSON.stringify(users)
     );
 
-    alert("Signup Successful!");
+    // AUTO LOGIN AFTER SIGNUP
+    localStorage.setItem(
+      "loggedInUser",
+      JSON.stringify(formData)
+    );
 
+    // REDIRECT TO HOME
     navigate("/home");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-      <div className="bg-white p-10 rounded-2xl shadow-xl w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
 
-        <h1 className="text-5xl font-bold text-center text-gray-800">
+      <div className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md">
+
+        <h1 className="text-5xl font-bold text-center text-blue-700">
           Create Account
         </h1>
 
-        <p className="text-center text-gray-500 mt-4">
-          Join and start supporting causes.
+        <p className="text-gray-500 text-center mt-3">
+          Join CrowdFund today.
         </p>
 
         <form
-          onSubmit={handleSubmit}
-          className="mt-10 space-y-5"
+          onSubmit={handleSignup}
+          className="mt-10"
         >
 
           <div>
-            <label className="block mb-2">
-              Name
+
+            <label className="block text-gray-700 mb-2">
+              Full Name
             </label>
 
             <input
               type="text"
               name="name"
               placeholder="Enter your name"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
               value={formData.name}
               onChange={handleChange}
-              className="w-full border border-gray-300 px-4 py-3 rounded-xl outline-none"
               required
             />
+
           </div>
 
-          <div>
-            <label className="block mb-2">
+          <div className="mt-6">
+
+            <label className="block text-gray-700 mb-2">
               Email
             </label>
 
@@ -86,15 +104,17 @@ function Signup() {
               type="email"
               name="email"
               placeholder="Enter your email"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
               value={formData.email}
               onChange={handleChange}
-              className="w-full border border-gray-300 px-4 py-3 rounded-xl outline-none"
               required
             />
+
           </div>
 
-          <div>
-            <label className="block mb-2">
+          <div className="mt-6">
+
+            <label className="block text-gray-700 mb-2">
               Password
             </label>
 
@@ -102,28 +122,30 @@ function Signup() {
               type="password"
               name="password"
               placeholder="Enter your password"
+              className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 px-4 py-3 rounded-xl outline-none"
               required
             />
+
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl text-lg"
+            className="w-full mt-8 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
           >
             Sign Up
           </button>
 
         </form>
 
-        <p className="text-center mt-6 text-gray-600">
-          Already have an account?{" "}
+        <p className="text-center text-gray-500 mt-6">
+
+          Already have an account?
 
           <Link
-            to="/"
-            className="text-blue-600 font-semibold"
+            to="/login"
+            className="text-blue-600 font-semibold ml-2"
           >
             Login
           </Link>
