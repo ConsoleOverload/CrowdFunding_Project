@@ -1,70 +1,157 @@
 import Navbar from "../components/Navbar";
-import CampaignCard from "../components/CampaignCard";
 import Footer from "../components/Footer";
-import campaigns from "../data/campaigns";
-
+import { Link, useNavigate } from "react-router-dom";
 
 function Home() {
-return ( <div className="min-h-screen bg-gradient-to-bg from-blue-50 to-white">
 
-  <Navbar />
+  const navigate = useNavigate();
 
-  {/* Hero Section */}
-  <section className="flex flex-col items-center justify-center text-center px-6 py-24">
+  // HANDLE START FUNDRAISER
+  const handleStartFundraiser = () => {
 
-    <h1 className="text-5xl md:text-6xl font-bold text-gray-800 leading-tight">
-      Fund Dreams. <br />
-      Change Lives.
-    </h1>
+    const loggedInUser =
+      JSON.parse(localStorage.getItem("loggedInUser"));
 
-    <p className="mt-6 text-lg text-gray-600 max-w-2xl">
-      A trusted crowdfunding platform where people can
-      support meaningful causes, education, startups,
-      medical emergencies and more.
-    </p>
+    // IF NOT LOGGED IN
+    if (!loggedInUser) {
 
-    <div className="mt-8 flex gap-4">
+      localStorage.setItem(
+        "redirectAfterLogin",
+        "/create"
+      );
 
-      <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-lg transition">
-        Start Fundraiser
-      </button>
+      navigate("/login");
 
-      <button className="border border-gray-400 hover:bg-gray-100 px-6 py-3 rounded-xl text-lg transition">
-        Explore Campaigns
-      </button>
+    } else {
+
+      // USER ALREADY LOGGED IN
+      navigate("/create");
+    }
+  };
+
+  return (
+
+    <div className="min-h-screen bg-gray-100">
+
+      <Navbar />
+
+      {/* HERO SECTION */}
+
+      <section className="bg-gradient-to-bg from-blue-100 to-blue-50 py-32 px-8">
+
+        <div className="max-w-6xl mx-auto text-center">
+
+          <h1 className="text-6xl font-extrabold leading-tight text-blue-700 drop-shadow-md">
+
+            Empower Dreams <br />
+
+            Through Crowdfunding
+
+          </h1>
+
+          <p className="mt-8 text-xl text-black-600 max-w-3xl mx-auto leading-relaxed">
+
+            Start fundraising for meaningful causes or support campaigns
+            that inspire change and help people in need.
+
+          </p>
+
+          <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
+
+            {/* START FUNDRAISER */}
+
+            <button
+              onClick={handleStartFundraiser}
+              className="bg-blue-600 text-white px-10 py-4 rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 font-semibold text-lg"
+            >
+              Start Fundraiser
+            </button>
+
+            {/* EXPLORE CAMPAIGNS */}
+
+            <Link
+              to="/campaigns"
+              className="bg-blue-600 text-white px-10 py-4 rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 font-semibold text-lg"
+            >
+              Explore Campaigns
+            </Link>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* ABOUT SECTION */}
+
+      <section className="py-24 px-8 bg-white">
+
+        <div className="max-w-6xl mx-auto text-center">
+
+          <h2 className="text-5xl font-bold text-gray-800">
+
+            Why Choose CrowdFund?
+
+          </h2>
+
+          <p className="mt-6 text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
+
+            CrowdFund helps people raise money for education, medical
+            emergencies, startups, social causes, and community support.
+            Anyone can create campaigns and receive support from donors
+            around the world.
+
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-16">
+
+            <div className="bg-gray-100 p-10 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
+
+              <h3 className="text-2xl font-bold text-blue-600">
+                Easy Fundraising
+              </h3>
+
+              <p className="text-gray-600 mt-4">
+                Create campaigns easily with images and detailed
+                descriptions.
+              </p>
+
+            </div>
+
+            <div className="bg-gray-100 p-10 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
+
+              <h3 className="text-2xl font-bold text-blue-600">
+                Trusted Donations
+              </h3>
+
+              <p className="text-gray-600 mt-4">
+                Donors can securely support campaigns and track causes.
+              </p>
+
+            </div>
+
+            <div className="bg-gray-100 p-10 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
+
+              <h3 className="text-2xl font-bold text-blue-600">
+                Community Impact
+              </h3>
+
+              <p className="text-gray-600 mt-4">
+                Help people in need and create positive social impact.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <Footer />
 
     </div>
-
-  </section>
-
-  {/* Featured Campaigns */}
-  <section className="px-8 py-20 bg-white">
-
-    <h2 className="text-4xl font-bold text-center text-gray-800">
-      Featured Campaigns
-    </h2>
-
-    <p className="text-center text-gray-600 mt-4">
-      Discover fundraisers that are changing lives.
-    </p>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-14">
-{campaigns.map((campaign) => ( <CampaignCard
- key={campaign.id}
- campaign={campaign}
-/>
-))}
-
-      
-    </div>
-
-  </section>
-
-  <Footer />
-
-</div>
-
-);
+  );
 }
 
 export default Home;
