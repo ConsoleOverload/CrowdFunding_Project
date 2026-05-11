@@ -8,7 +8,8 @@ Content-Type: application/json
   "category": "Financial",
   "goalAmount": 500060,
   "deadline": "2026-12-01",
-  "location": "Ghakesar"
+  "location": "Ghakesar",
+  
 }
 
 ### GET ALL APPROVED CAMPAIGNS

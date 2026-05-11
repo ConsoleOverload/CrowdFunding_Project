@@ -42,7 +42,7 @@ export const sendDonationEmail = async (
 
     const info = await transporter.sendMail({
 
-      from: `"Credora Donations" <${process.env.EMAIL}>`,
+      from: `"CrowdFunding Donations" <${process.env.EMAIL}>`,
 
       to: email,
 
@@ -69,7 +69,7 @@ export const sendDonationEmail = async (
           <hr />
 
           <p style="font-size: 14px; color: gray;">
-            Thank you for supporting Credora.
+            Thank you for supporting us.
           </p>
 
         </div>

@@ -1,6 +1,7 @@
 import exp from "express";
 import { verifyToken } from "../Middleware/verifyToken.js";
 import { Campaign } from "../Models/campaignModel.js";
+import { upload } from "../Middleware/upload.js";
 const campaignApp = exp.Router();
 
 
@@ -11,12 +12,21 @@ campaignApp.post("/create",
   async (req, res) => {
 
     try {
+      const coverImage = req.files?.coverImage?.[0]?.path || "";
 
+      const gallery =
+        req.files?.gallery?.map(
+          file => file.path
+        ) || [];
       const newCampaign = new Campaign({
         ...req.body,
         createdBy: req.user.id,
         raisedAmount: 0,
-        status: "pending"
+        status: "pending",
+        media:{
+          coverImage,
+          gallery
+        }
       });
 
       await newCampaign.save();
