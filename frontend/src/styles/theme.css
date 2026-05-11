@@ -1,0 +1,332 @@
+/* =========================================================
+   TAILWIND IMPORTS (V4)
+========================================================= */
+
+@import "tailwindcss";
+
+/* =========================================================
+   DESIGN TOKENS
+========================================================= */
+
+:root {
+  /* Backgrounds */
+  --bg: 36 33% 97%;
+  --surface: 0 0% 100%;
+  --surface-2: 32 20% 95%;
+
+  /* Text */
+  --text: 24 10% 12%;
+  --text-muted: 25 8% 42%;
+
+  /* Borders */
+  --border: 30 14% 88%;
+
+  /* Brand */
+  --primary: 160 44% 32%;
+  --primary-hover: 160 44% 26%;
+
+  /* States */
+  --success: 142 52% 38%;
+  --warning: 34 90% 45%;
+  --danger: 2 72% 54%;
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.dark {
+  --bg: 24 10% 10%;
+  --surface: 24 10% 14%;
+  --surface-2: 24 10% 18%;
+
+  --text: 30 18% 92%;
+  --text-muted: 30 10% 68%;
+
+  --border: 24 10% 24%;
+
+  --primary: 160 38% 46%;
+  --primary-hover: 160 38% 40%;
+
+  --success: 142 52% 42%;
+  --warning: 34 88% 54%;
+  --danger: 2 72% 60%;
+}
+
+/* =========================================================
+   THEME VARIABLES
+========================================================= */
+
+@theme {
+  --color-bg: hsl(var(--bg));
+  --color-surface: hsl(var(--surface));
+  --color-surface-2: hsl(var(--surface-2));
+
+  --color-text: hsl(var(--text));
+  --color-text-muted: hsl(var(--text-muted));
+
+  --color-border: hsl(var(--border));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-hover: hsl(var(--primary-hover));
+
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-danger: hsl(var(--danger));
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+
+  --font-sans: "Inter", sans-serif;
+  --font-heading: "Manrope", sans-serif;
+}
+
+/* =========================================================
+   BASE STYLES
+========================================================= */
+
+@layer base {
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    font-feature-settings: "ss01", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl;
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+
+  a {
+    transition: color 0.2s ease;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px rgba(255,255,255,0.4),
+      0 0 0 4px rgba(45, 122, 103, 0.35);
+  }
+}
+
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+@layer components {
+
+  /* ---------- Layout ---------- */
+
+  .page-container {
+    @apply max-w-7xl mx-auto px-5 md:px-8 lg:px-10;
+  }
+
+  .section-container {
+    @apply py-16 md:py-24;
+  }
+
+  /* ---------- Buttons ---------- */
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center
+    px-5 py-3
+    rounded-xl
+    font-medium
+    text-white
+    transition-all duration-200;
+    
+    background: var(--color-primary);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-primary-hover);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center
+    px-5 py-3
+    rounded-xl
+    font-medium
+    border
+    transition-all duration-200;
+
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--color-surface-2);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center
+    px-4 py-2
+    rounded-lg
+    transition-all duration-200;
+
+    color: var(--color-text-muted);
+  }
+
+  .btn-ghost:hover {
+    background: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  /* ---------- Input ---------- */
+
+  .input {
+    @apply w-full px-4 py-3 rounded-xl border transition-all duration-200;
+
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border);
+  }
+
+  .input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(45,122,103,0.10);
+  }
+
+  .label {
+    @apply block text-sm font-medium mb-2;
+    color: var(--color-text);
+  }
+
+  /* ---------- Cards ---------- */
+
+  .card {
+    @apply rounded-2xl border transition-all duration-300;
+
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* ---------- Badge ---------- */
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium;
+
+    background: var(--color-surface-2);
+    color: var(--color-text);
+  }
+
+  /* ---------- Campaign ---------- */
+
+  .campaign-progress {
+    @apply w-full h-2.5 rounded-full overflow-hidden;
+
+    background: var(--color-surface-2);
+  }
+
+  .campaign-progress-bar {
+    @apply h-full rounded-full;
+
+    background: var(--color-primary);
+  }
+
+  .campaign-stats {
+    @apply flex items-center justify-between text-sm;
+    color: var(--color-text-muted);
+  }
+
+  /* ---------- Section ---------- */
+
+  .section-heading {
+    @apply max-w-2xl mb-12;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-semibold;
+  }
+
+  .section-subtitle {
+    @apply mt-4 text-lg;
+    color: var(--color-text-muted);
+  }
+}
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+@layer utilities {
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .surface-grid {
+    background-image:
+      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+
+    background-size: 40px 40px;
+  }
+}

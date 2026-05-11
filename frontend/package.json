@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/manrope": "^5.2.8",
     "@tailwindcss/vite": "^4.2.4",
+    "axios": "^1.16.0",
+    "clsx": "^2.1.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
+    "react-hook-form": "^7.75.0",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.15.0",
     "tailwindcss": "^4.2.4"
   },
