@@ -2,7 +2,7 @@ import exp from "express"
 import mongoose from "mongoose"
 import {userModel} from "../Models/userModel.js"
 export const userApp = exp.Router()
-import { verifyToken } from "../Middleware/VerifyToken.js";
+import { verifyToken } from "../Middleware/verifyToken.js";
 import bcrypt from "bcryptjs";
 import { upload } from "../Middleware/upload.js";
 userApp.get(
