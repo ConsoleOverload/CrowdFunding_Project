@@ -3,9 +3,9 @@ POST http://localhost:5005/auth-api/users
 Content-Type: application/json
 
 {
-  "name": "user2",
-  "email": "user2@gmail.com",
-  "password": "user2",
+  "name": "user1",
+  "email": "user1@gmail.com",
+  "password": "user1",
   "role": "USER"
 }
 

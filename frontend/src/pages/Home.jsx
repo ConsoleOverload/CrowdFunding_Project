@@ -1,37 +1,29 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext";
 function Home() {
 
   const navigate = useNavigate();
-
+  const { user } = useAuth();
+  console.log(user);
   // HANDLE START FUNDRAISER
   const handleStartFundraiser = () => {
 
-    const loggedInUser =
-      JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user) {
 
-    // IF NOT LOGGED IN
-    if (!loggedInUser) {
+    navigate("/login");
 
-      localStorage.setItem(
-        "redirectAfterLogin",
-        "/create"
-      );
+  } else {
 
-      navigate("/login");
+    navigate("/create");
 
-    } else {
-
-      // USER ALREADY LOGGED IN
-      navigate("/create");
-    }
-  };
+  }
+};
 
   return (
 
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-bg">
 
       <Navbar />
         {/* HERO SECTION */}

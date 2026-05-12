@@ -1,3 +1,5 @@
+import dns from 'node:dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']); // Forces use of Google DNS
 import exp from 'express'
 import { config } from "dotenv";
 import { connect } from "mongoose";

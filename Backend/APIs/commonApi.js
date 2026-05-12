@@ -68,7 +68,7 @@ commonApp.post("/login", async (req, res) => {
     res.cookie("token", signedToken, {
       httpOnly: true,
       secure: false,
-      sameSite: "lax",
+      sameSite: "none",
     });
     const userWithoutPassword = user.toObject();
     delete userWithoutPassword.password;
