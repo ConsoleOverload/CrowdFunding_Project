@@ -5,6 +5,9 @@ import {
   useState,
 } from "react";
 
+import { checkAuth }
+from "../api/authApi";
+
 const AuthContext =
   createContext();
 
@@ -12,37 +15,30 @@ export const AuthProvider = ({
   children,
 }) => {
 
-  // LOAD USER FROM LOCALSTORAGE
-
   const [user, setUser] =
-    useState(() => {
+    useState(null);
 
-      const storedUser =
-        localStorage.getItem("user");
+  const fetchUser = async () => {
 
-      return storedUser
-        ? JSON.parse(storedUser)
-        : null;
-    });
+    try {
 
-  // SAVE USER TO LOCALSTORAGE
+      const res =
+        await checkAuth();
 
-  useEffect(() => {
-
-    if (user) {
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(user)
+      setUser(
+        res.data.payload
       );
 
-    } else {
+    } catch {
 
-      localStorage.removeItem("user");
+      setUser(null);
 
     }
+  };
 
-  }, [user]);
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   return (
 
@@ -50,6 +46,7 @@ export const AuthProvider = ({
       value={{
         user,
         setUser,
+        fetchUser,
       }}
     >
       {children}
