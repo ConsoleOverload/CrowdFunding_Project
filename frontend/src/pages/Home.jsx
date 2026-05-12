@@ -34,119 +34,176 @@ function Home() {
     <div className="min-h-screen bg-gray-100">
 
       <Navbar />
+        {/* HERO SECTION */}
 
-      {/* HERO SECTION */}
+        <section className="section-container">
 
-      <section className="bg-gradient-to-bg from-blue-100 to-blue-50 py-32 px-8">
+          <div className="page-container">
 
-        <div className="max-w-6xl mx-auto text-center">
+            <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
 
-          <h1 className="text-6xl font-extrabold leading-tight text-blue-700 drop-shadow-md">
+              {/* LEFT CONTENT */}
 
-            Empower Dreams <br />
+              <div>
 
-            Through Crowdfunding
+                {/* BADGE */}
 
-          </h1>
+                <div className="inline-flex items-center rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-muted shadow-sm">
 
-          <p className="mt-8 text-xl text-black-600 max-w-3xl mx-auto leading-relaxed">
+                  Community-driven crowdfunding platform
 
-            Start fundraising for meaningful causes or support campaigns
-            that inspire change and help people in need.
+                </div>
 
-          </p>
+                {/* HEADING */}
 
-          <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
+                <h1 className="mt-8 max-w-2xl text-balance">
 
-            {/* START FUNDRAISER */}
+                  Raise funds for meaningful causes with transparency and trust.
 
-            <button
-              onClick={handleStartFundraiser}
-              className="bg-blue-600 text-white px-10 py-4 rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 font-semibold text-lg"
-            >
-              Start Fundraiser
-            </button>
+                </h1>
 
-            {/* EXPLORE CAMPAIGNS */}
+                {/* DESCRIPTION */}
 
-            <Link
-              to="/campaigns"
-              className="bg-blue-600 text-white px-10 py-4 rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 font-semibold text-lg"
-            >
-              Explore Campaigns
-            </Link>
+                <p className="mt-8 max-w-xl text-lg leading-relaxed text-text-muted">
+
+                  Support medical emergencies, education, social initiatives, startups,
+                  and community-driven campaigns through a platform built around
+                  credibility and human impact.
+
+                </p>
+
+                {/* CTA */}
+
+                <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+
+                  <button
+                    onClick={handleStartFundraiser}
+                    className="btn-primary"
+                  >
+                    Start Fundraiser
+                  </button>
+
+                  <Link
+                    to="/campaigns"
+                    className="btn-secondary"
+                  >
+                    Explore Campaigns
+                  </Link>
+
+                </div>
+
+                {/* STATS */}
+
+                <div className="mt-14 flex flex-wrap gap-10 border-t border-border pt-8">
+
+                  <div>
+
+                    <p className="text-3xl font-semibold text-text">
+
+                      2K+
+
+                    </p>
+
+                    <p className="mt-2 text-sm text-text-muted">
+
+                      Active donors
+
+                    </p>
+
+                  </div>
+
+                  <div>
+
+                    <p className="text-3xl font-semibold text-text">
+
+                      ₹12M+
+
+                    </p>
+
+                    <p className="mt-2 text-sm text-text-muted">
+
+                      Funds raised
+
+                    </p>
+
+                  </div>
+
+                  <div>
+
+                    <p className="text-3xl font-semibold text-text">
+
+                      850+
+
+                    </p>
+
+                    <p className="mt-2 text-sm text-text-muted">
+
+                      Campaigns supported
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* RIGHT SIDE */}
+
+              <div className="relative">
+
+                <div className="card overflow-hidden">
+
+                  <img
+                    src="https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=1200&auto=format&fit=crop"
+                    alt="Crowdfunding"
+                    className="h-[500px] w-full object-cover"
+                  />
+
+                </div>
+
+                {/* FLOATING CARD */}
+
+                <div className="absolute -bottom-8 -left-8 hidden max-w-xs rounded-2xl border border-border bg-surface p-5 shadow-md md:block">
+
+                  <p className="text-sm text-text-muted">
+
+                    Featured Campaign
+
+                  </p>
+
+                  <h3 className="mt-3 text-lg font-semibold text-text">
+
+                    Help build a rural healthcare center
+
+                  </h3>
+
+                  <div className="mt-5 campaign-progress">
+
+                    <div
+                      className="campaign-progress-bar"
+                      style={{ width: "68%" }}
+                    />
+
+                  </div>
+
+                  <div className="campaign-stats mt-3">
+
+                    <span>₹6.8L raised</span>
+
+                    <span>68%</span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
-        </div>
-
-      </section>
-
-      {/* ABOUT SECTION */}
-
-      <section className="py-24 px-8 bg-white">
-
-        <div className="max-w-6xl mx-auto text-center">
-
-          <h2 className="text-5xl font-bold text-gray-800">
-
-            Why Choose CrowdFund?
-
-          </h2>
-
-          <p className="mt-6 text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
-
-            CrowdFund helps people raise money for education, medical
-            emergencies, startups, social causes, and community support.
-            Anyone can create campaigns and receive support from donors
-            around the world.
-
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mt-16">
-
-            <div className="bg-gray-100 p-10 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
-
-              <h3 className="text-2xl font-bold text-blue-600">
-                Easy Fundraising
-              </h3>
-
-              <p className="text-gray-600 mt-4">
-                Create campaigns easily with images and detailed
-                descriptions.
-              </p>
-
-            </div>
-
-            <div className="bg-gray-100 p-10 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
-
-              <h3 className="text-2xl font-bold text-blue-600">
-                Trusted Donations
-              </h3>
-
-              <p className="text-gray-600 mt-4">
-                Donors can securely support campaigns and track causes.
-              </p>
-
-            </div>
-
-            <div className="bg-gray-100 p-10 rounded-2xl shadow-md hover:shadow-xl transition duration-300">
-
-              <h3 className="text-2xl font-bold text-blue-600">
-                Community Impact
-              </h3>
-
-              <p className="text-gray-600 mt-4">
-                Help people in need and create positive social impact.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
+        </section>
 
       <Footer />
 
