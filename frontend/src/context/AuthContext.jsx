@@ -20,23 +20,25 @@ export const AuthProvider = ({
 
   const fetchUser = async () => {
 
-    try {
+  try {
 
-      const res =
-        await checkAuth();
+    const res =
+      await checkAuth();
 
-      setUser(
-        res.data.payload
-      );
+    console.log(res.data);
 
-    } catch {
+    setUser(
+      res.data.user ||
+      res.data.payload ||
+      res.data
+    );
 
-      // guest user
+  } catch {
 
-      setUser(null);
+    setUser(null);
 
-    }
-  };
+  }
+};
 
   useEffect(() => {
     fetchUser();

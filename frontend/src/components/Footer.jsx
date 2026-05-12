@@ -1,21 +1,76 @@
 function Footer() {
-return ( <footer className="bg-gray-900 text-white py-10 mt-20">
 
-  <div className="max-w-7xl mx-auto px-8 text-center">
+  return (
 
-    <h2 className="text-3xl font-bold">
-      CrowdFund
-    </h2>
+    <footer className="mt-24 border-t border-border bg-surface">
 
-    <p className="mt-4 text-gray-400">
-      Empowering people through crowdfunding.
-    </p>
+      <div className="page-container py-14">
 
-  </div>
+        <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
 
-</footer>
+          {/* LEFT */}
 
-);
+          <div className="max-w-md">
+
+            <h2 className="font-heading text-2xl font-semibold tracking-tight text-text">
+
+              CrowdFund
+
+            </h2>
+
+            <p className="mt-4 leading-relaxed text-text-muted">
+
+              Empowering communities through transparent, meaningful, and human-centered crowdfunding.
+
+            </p>
+
+          </div>
+
+          {/* RIGHT */}
+
+          <div className="flex flex-col items-start gap-3 text-sm text-text-muted md:items-end">
+
+            <div className="flex items-center gap-6">
+
+              <a
+                href="#"
+                className="hover:text-text transition-colors"
+              >
+                About
+              </a>
+
+              <a
+                href="#"
+                className="hover:text-text transition-colors"
+              >
+                Support
+              </a>
+
+              <a
+                href="#"
+                className="hover:text-text transition-colors"
+              >
+                Contact
+              </a>
+
+            </div>
+
+            <p>
+
+              © 2026 CrowdFund.
+              All rights reserved.
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </footer>
+
+  );
 }
 
 export default Footer;
