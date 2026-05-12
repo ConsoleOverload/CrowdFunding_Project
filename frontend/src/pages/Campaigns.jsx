@@ -1,156 +1,132 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import Navbar
+from "../components/Navbar";
+
+import Footer
+from "../components/Footer";
+
+import Loader
+from "../components/Loader";
+
+import CampaignCard
+from "../components/CampaignCard";
+
+import {
+  getCampaigns
+} from "../api/campaignApi";
 
 function Campaigns() {
 
-  // GET CAMPAIGNS
-  const campaigns =
-    JSON.parse(localStorage.getItem("campaigns")) || [];
+  const [campaigns, setCampaigns] =
+    useState([]);
 
-  // HANDLE DONATION
-  const handleDonate = (campaign) => {
+  const [loading, setLoading] =
+    useState(true);
 
-    const options = {
+  // FETCH CAMPAIGNS
 
-      // RAZORPAY TEST KEY
-      key: "rzp_test_SmQ1FHCAyXTtW4",
+  const fetchCampaigns = async () => {
 
-      amount: 500 * 100,
+    try {
 
-      currency: "INR",
+      const res =
+        await getCampaigns();
 
-      name: "CrowdFund",
+      setCampaigns(
+        res.data.payload || []
+      );
 
-      description: `Donation for ${campaign.title}`,
+    } catch (err) {
 
-      image:
-        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      console.log(err);
 
-      handler: function (response) {
+    } finally {
 
-        alert(
-          "Payment Successful!\nPayment ID: " +
-            response.razorpay_payment_id
-        );
-      },
+      setLoading(false);
 
-      prefill: {
-
-        name: "Donor",
-
-        email: "donor@example.com",
-
-        contact: "9999999999",
-      },
-
-      notes: {
-
-        campaignTitle: campaign.title,
-      },
-
-      theme: {
-
-        color: "#2563eb",
-      },
-    };
-
-    const razorpay =
-      new window.Razorpay(options);
-
-    razorpay.open();
+    }
   };
+
+  useEffect(() => {
+    fetchCampaigns();
+  }, []);
 
   return (
 
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-bg">
 
       <Navbar />
 
-      <section className="py-20 px-8">
+      <main className="section-container">
 
-        <div className="max-w-7xl mx-auto">
+        <div className="page-container">
 
-          <h1 className="text-5xl font-bold text-center text-gray-800">
+          {/* PAGE HEADER */}
 
-            Explore Campaigns
+          <div className="section-heading">
 
-          </h1>
+            <div className="badge">
 
-          <p className="text-center text-gray-500 mt-4 text-lg">
+              Active Campaigns
 
-            Support causes that matter.
+            </div>
 
-          </p>
+            <h1 className="section-title mt-6">
 
-          {campaigns.length === 0 ? (
+              Support meaningful causes
 
-            <p className="text-center mt-16 text-gray-500 text-xl">
+            </h1>
 
-              No campaigns created yet.
+            <p className="section-subtitle">
+
+              Discover verified fundraisers helping people,
+              communities, education initiatives, medical emergencies,
+              and impactful social causes.
 
             </p>
 
+          </div>
+
+          {/* LOADING */}
+
+          {loading ? (
+
+            <Loader />
+
+          ) : campaigns.length === 0 ? (
+
+            <div className="card p-12 text-center">
+
+              <h2 className="text-2xl font-semibold">
+
+                No campaigns available
+
+              </h2>
+
+              <p className="mt-4 text-text-muted">
+
+                Campaigns created by users will appear here.
+
+              </p>
+
+            </div>
+
           ) : (
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
+            /* CAMPAIGNS GRID */
 
-              {campaigns.map((campaign, index) => (
+            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
 
-                <div
-                  key={index}
-                  className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition duration-300"
-                >
+              {campaigns.map((campaign) => (
 
-                  {/* IMAGE */}
-
-                  <img
-                    src={campaign.image}
-                    alt={campaign.title}
-                    className="w-full h-64 object-cover"
-                  />
-
-                  {/* CONTENT */}
-
-                  <div className="p-6">
-
-                    <h2 className="text-3xl font-bold text-gray-800">
-
-                      {campaign.title}
-
-                    </h2>
-
-                    <p className="text-gray-600 mt-4">
-
-                      {campaign.description}
-
-                    </p>
-
-                    <p className="mt-5 text-blue-600 font-bold text-xl">
-
-                      Goal: ₹{campaign.goal}
-
-                    </p>
-
-                    <p className="mt-2 text-gray-500">
-
-                      Created by: {campaign.creator}
-
-                    </p>
-
-                    {/* DONATE BUTTON */}
-
-                    <button
-                      onClick={() =>
-                        handleDonate(campaign)
-                      }
-                      className="w-full mt-6 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
-                    >
-                      Donate Now
-                    </button>
-
-                  </div>
-
-                </div>
+                <CampaignCard
+                  key={campaign._id}
+                  campaign={campaign}
+                />
 
               ))}
 
@@ -160,7 +136,7 @@ function Campaigns() {
 
         </div>
 
-      </section>
+      </main>
 
       <Footer />
 
