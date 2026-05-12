@@ -1,82 +1,129 @@
 import { Link, useNavigate } from "react-router-dom";
 
+import { useAuth } from "../context/AuthContext";
+
 function Navbar() {
 
   const navigate = useNavigate();
 
-  const loggedInUser = JSON.parse(
-    localStorage.getItem("loggedInUser")
-  );
+  const { user, setUser } = useAuth();
 
   const handleLogout = () => {
 
-    localStorage.removeItem("loggedInUser");
+    // CLEAR AUTH STATE
+
+    setUser(null);
 
     navigate("/");
   };
 
   return (
 
-    <nav className="flex justify-between items-center px-8 py-5 bg-white shadow-md">
+    <header className="sticky top-0 z-50 border-b border-border bg-surface/80 backdrop-blur-md">
 
-      {/* LOGO */}
+      <div className="page-container h-16 flex items-center justify-between">
 
-      <Link
-        to="/"
-        className="text-4xl font-bold text-blue-600"
-      >
-        CrowdFund
-      </Link>
+        {/* LOGO */}
 
-      {/* NAV LINKS */}
-
-      <div className="flex items-center gap-8 text-lg font-medium">
-
-        <Link to="/home" className="hover:text-blue-600">
-          Home
+        <Link
+          to="/"
+          className="font-heading text-2xl font-semibold text-text"
+        >
+          CrowdFund
         </Link>
 
-        <Link to="/campaigns" className="hover:text-blue-600">
-          Campaigns
-        </Link>
+        {/* NAVIGATION */}
 
-        {/* BEFORE LOGIN */}
+        <nav className="flex items-center gap-2">
 
-        {!loggedInUser && (
-          <>
-            <Link to="/login" className="hover:text-blue-600">
-              Login
-            </Link>
+          {/* HOME */}
 
-            <Link
-              to="/signup"
-              className="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700"
-            >
-              Sign Up
-            </Link>
-          </>
-        )}
+          <Link
+            to="/"
+            className="btn-ghost"
+          >
+            Home
+          </Link>
 
-        {/* AFTER LOGIN */}
+          {/* CAMPAIGNS */}
 
-        {loggedInUser && (
-          <>
-            <Link to="/profile" className="hover:text-blue-600">
-              Profile
-            </Link>
+          <Link
+            to="/campaigns"
+            className="btn-ghost"
+          >
+            Campaigns
+          </Link>
 
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-5 py-2 rounded-xl hover:bg-red-600"
-            >
-              Logout
-            </button>
-          </>
-        )}
+          {/* IF USER NOT LOGGED IN */}
+
+          {!user ? (
+
+            <>
+
+              <Link
+                to="/login"
+                className="btn-ghost"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/signup"
+                className="btn-primary"
+              >
+                Sign Up
+              </Link>
+
+            </>
+
+          ) : (
+
+            <>
+              {/* START FUNDRAISER */}
+
+              <Link
+                to="/create"
+                className="btn-ghost"
+              >
+                Start Fundraiser
+              </Link>
+
+              {/* PROFILE */}
+
+              <Link
+                to="/profile"
+                className="btn-ghost"
+              >
+                Profile
+              </Link>
+
+              {/* ADMIN */}
+
+              <Link
+                to="/admin"
+                className="btn-ghost"
+              >
+                Admin
+              </Link>
+
+              {/* LOGOUT */}
+
+              <button
+                onClick={handleLogout}
+                className="btn-secondary"
+              >
+                Logout
+              </button>
+
+            </>
+
+          )}
+
+        </nav>
 
       </div>
 
-    </nav>
+    </header>
   );
 }
 
