@@ -79,34 +79,49 @@ function Signup() {
 
   return (
 
-    <>
-      <Navbar />
+  <>
+    <Navbar />
 
-      <main className="min-h-[calc(100vh-64px)] flex items-center">
+    <main className="min-h-[calc(100vh-64px)] bg-bg">
 
-        <div className="page-container w-full">
+      <div className="page-container flex items-center justify-center py-20">
 
-          <div className="max-w-md">
+        <div className="w-full max-w-md">
 
-            <div className="mb-10">
+          {/* CARD */}
 
-              <h1 className="text-4xl font-semibold">
+          <div className="card p-8 md:p-10">
 
-                Create account
+            {/* HEADER */}
+
+            <div className="text-center">
+
+              <div className="inline-flex items-center rounded-full bg-surface-2 px-4 py-1.5 text-sm text-text-muted">
+
+                Join CrowdFund
+
+              </div>
+
+              <h1 className="mt-6 text-4xl font-semibold tracking-tight">
+
+                Create your account
 
               </h1>
 
-              <p className="mt-3">
+              <p className="mt-4 text-base leading-relaxed text-text-muted">
 
-                Start fundraising or support meaningful causes.
+                Start fundraising, support meaningful causes,
+                and become part of a community-driven platform.
 
               </p>
 
             </div>
 
+            {/* FORM */}
+
             <form
               onSubmit={handleSubmit}
-              className="space-y-6"
+              className="mt-10 space-y-6"
             >
 
               <Input
@@ -120,7 +135,7 @@ function Signup() {
               />
 
               <Input
-                label="Email"
+                label="Email Address"
                 type="email"
                 name="email"
                 placeholder="Enter your email"
@@ -140,38 +155,46 @@ function Signup() {
               />
 
               <Button
-                className="w-full"
+                className="w-full justify-center"
                 disabled={loading}
               >
                 {
                   loading
-                  ? "Creating account..."
-                  : "Sign Up"
+                    ? "Creating account..."
+                    : "Create Account"
                 }
               </Button>
 
             </form>
 
-            <p className="mt-8 text-sm text-text-muted">
+            {/* FOOTER */}
 
-              Already have an account?
+            <div className="mt-8 border-t border-border pt-6 text-center">
 
-              <Link
-                to="/login"
-                className="ml-2 text-primary hover:underline"
-              >
-                Login
-              </Link>
+              <p className="text-sm text-text-muted">
 
-            </p>
+                Already have an account?
+
+                <Link
+                  to="/login"
+                  className="ml-2 font-medium text-primary hover:underline"
+                >
+                  Login
+                </Link>
+
+              </p>
+
+            </div>
 
           </div>
 
         </div>
 
-      </main>
-    </>
-  );
+      </div>
+
+    </main>
+  </>
+);
 }
 
 export default Signup;
