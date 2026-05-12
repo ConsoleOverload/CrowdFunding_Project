@@ -1,160 +1,176 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  useState
+} from "react";
+
+import {
+  Link,
+  useNavigate
+} from "react-router-dom";
+
+import toast
+from "react-hot-toast";
+
+import Navbar
+from "../components/Navbar";
+
+import Input
+from "../components/Input";
+
+import Button
+from "../components/Button";
+
+import {
+  signupUser
+} from "../api/authApi";
 
 function Signup() {
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [loading, setLoading] =
+    useState(false);
+
+  const [formData, setFormData] =
+    useState({
+      name: "",
+      email: "",
+      password: "",
+      role: "USER",
+    });
 
   const handleChange = (e) => {
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
   };
 
-  const handleSignup = (e) => {
+  const handleSubmit = async (e) => {
 
     e.preventDefault();
 
-    // GET EXISTING USERS
-    const users =
-      JSON.parse(localStorage.getItem("users")) || [];
+    try {
 
-    // CHECK EXISTING EMAIL
-    const existingUser = users.find(
-      (user) => user.email === formData.email
-    );
+      setLoading(true);
 
-    if (existingUser) {
+      await signupUser(formData);
 
-      alert("User already exists");
+      toast.success(
+        "Account created successfully"
+      );
 
-      return;
+      navigate("/login");
+
+    } catch (err) {
+
+      toast.error(
+        err.response?.data?.message ||
+        "Signup failed"
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
-
-    // SAVE USER
-    users.push(formData);
-
-    localStorage.setItem(
-      "users",
-      JSON.stringify(users)
-    );
-
-    // AUTO LOGIN AFTER SIGNUP
-    localStorage.setItem(
-      "loggedInUser",
-      JSON.stringify(formData)
-    );
-
-    // REDIRECT TO HOME
-    navigate("/home");
   };
 
   return (
 
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+    <>
+      <Navbar />
 
-      <div className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md">
+      <main className="min-h-[calc(100vh-64px)] flex items-center">
 
-        <h1 className="text-5xl font-bold text-center text-blue-700">
-          Create Account
-        </h1>
+        <div className="page-container w-full">
 
-        <p className="text-gray-500 text-center mt-3">
-          Join CrowdFund today.
-        </p>
+          <div className="max-w-md">
 
-        <form
-          onSubmit={handleSignup}
-          className="mt-10"
-        >
+            <div className="mb-10">
 
-          <div>
+              <h1 className="text-4xl font-semibold">
 
-            <label className="block text-gray-700 mb-2">
-              Full Name
-            </label>
+                Create account
 
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
+              </h1>
+
+              <p className="mt-3">
+
+                Start fundraising or support meaningful causes.
+
+              </p>
+
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
+
+              <Input
+                label="Full Name"
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+
+              <Input
+                label="Email"
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+
+              <Input
+                label="Password"
+                type="password"
+                name="password"
+                placeholder="Create password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+
+              <Button
+                className="w-full"
+                disabled={loading}
+              >
+                {
+                  loading
+                  ? "Creating account..."
+                  : "Sign Up"
+                }
+              </Button>
+
+            </form>
+
+            <p className="mt-8 text-sm text-text-muted">
+
+              Already have an account?
+
+              <Link
+                to="/login"
+                className="ml-2 text-primary hover:underline"
+              >
+                Login
+              </Link>
+
+            </p>
 
           </div>
 
-          <div className="mt-6">
+        </div>
 
-            <label className="block text-gray-700 mb-2">
-              Email
-            </label>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-
-          </div>
-
-          <div className="mt-6">
-
-            <label className="block text-gray-700 mb-2">
-              Password
-            </label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none focus:border-blue-500"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-
-          </div>
-
-          <button
-            type="submit"
-            className="w-full mt-8 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition"
-          >
-            Sign Up
-          </button>
-
-        </form>
-
-        <p className="text-center text-gray-500 mt-6">
-
-          Already have an account?
-
-          <Link
-            to="/login"
-            className="text-blue-600 font-semibold ml-2"
-          >
-            Login
-          </Link>
-
-        </p>
-
-      </div>
-
-    </div>
+      </main>
+    </>
   );
 }
 

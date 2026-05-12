@@ -5,32 +5,35 @@ import {
   useState,
 } from "react";
 
-import { checkAuth } from "../api/authApi";
+import { checkAuth }
+from "../api/authApi";
 
-const AuthContext = createContext();
+const AuthContext =
+  createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({
+  children,
+}) => {
 
-  const [user, setUser] = useState(null);
-
-  const [loading, setLoading] =
-    useState(true);
+  const [user, setUser] =
+    useState(null);
 
   const fetchUser = async () => {
 
     try {
 
-      const res = await checkAuth();
+      const res =
+        await checkAuth();
 
-      setUser(res.data.payload);
+      setUser(
+        res.data.payload
+      );
 
     } catch {
 
+      // guest user
+
       setUser(null);
-
-    } finally {
-
-      setLoading(false);
 
     }
   };
@@ -40,16 +43,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
+
     <AuthContext.Provider
       value={{
         user,
         setUser,
-        loading,
         fetchUser,
       }}
     >
       {children}
     </AuthContext.Provider>
+
   );
 };
 
