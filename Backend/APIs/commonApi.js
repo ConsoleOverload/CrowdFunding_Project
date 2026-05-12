@@ -67,7 +67,7 @@ commonApp.post("/login", async (req, res) => {
 
     res.cookie("token", signedToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "none",
     });
     const userWithoutPassword = user.toObject();
@@ -89,8 +89,8 @@ commonApp.post("/login", async (req, res) => {
 commonApp.get("/logout", async (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: true,
+    sameSite: "none",
   });
 
   res.status(200).json({ message: "logout success" });
