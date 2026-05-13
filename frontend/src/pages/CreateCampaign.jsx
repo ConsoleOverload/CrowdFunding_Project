@@ -1,209 +1,363 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  useState,
+} from "react";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import {
+  useNavigate,
+} from "react-router-dom";
+
+import toast
+from "react-hot-toast";
+
+import Navbar
+from "../components/Navbar";
+
+import Footer
+from "../components/Footer";
+
+import Input
+from "../components/Input";
+
+import Button
+from "../components/Button";
+
+import {
+  createCampaign,
+} from "../api/campaignApi";
 
 function CreateCampaign() {
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    goal: "",
-    image: null,
-  });
+  const [loading, setLoading] =
+    useState(false);
 
-  // Handle text inputs
+  const [formData, setFormData] =
+    useState({
+
+      title: "",
+
+      description: "",
+
+      category: "",
+
+      goalAmount: "",
+
+      deadline: "",
+
+      location: "",
+
+      coverImage: null,
+
+      gallery: [],
+    });
+
+  // HANDLE INPUT CHANGES
+
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
   };
 
-  // Handle image upload
+  // HANDLE IMAGE UPLOADS
+
   const handleImageChange = (e) => {
 
-    const file = e.target.files[0];
+    const files =
+      Array.from(e.target.files);
 
-    const reader = new FileReader();
+    setFormData({
+      ...formData,
 
-    reader.onloadend = () => {
+      coverImage:
+        files[0],
 
-      setFormData({
-        ...formData,
-        image: reader.result,
-      });
+      gallery:
+        files,
+    });
+  };
 
-    };
+  // SUBMIT FORM
 
-    if (file) {
-      reader.readAsDataURL(file);
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+      setLoading(true);
+
+      const campaignData =
+        new FormData();
+
+      campaignData.append(
+        "title",
+        formData.title
+      );
+
+      campaignData.append(
+        "description",
+        formData.description
+      );
+
+      campaignData.append(
+        "category",
+        formData.category
+      );
+
+      campaignData.append(
+        "goalAmount",
+        formData.goalAmount
+      );
+
+      campaignData.append(
+        "deadline",
+        formData.deadline
+      );
+
+      campaignData.append(
+        "location",
+        formData.location
+      );
+
+      // COVER IMAGE
+
+      campaignData.append(
+        "coverImage",
+        formData.coverImage
+      );
+
+      // GALLERY IMAGES
+
+      formData.gallery.forEach(
+        (image) => {
+
+          campaignData.append(
+            "gallery",
+            image
+          );
+        }
+      );
+
+      await createCampaign(
+        campaignData
+      );
+
+      toast.success(
+        "Campaign created successfully"
+      );
+
+      navigate("/campaigns");
+
+    } catch (err) {
+
+      console.log(err);
+
+      toast.error(
+        err.response?.data?.message ||
+        "Failed to create campaign"
+      );
+
+    } finally {
+
+      setLoading(false);
+
     }
   };
 
-  // Submit form
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const currentUser = JSON.parse(
-      localStorage.getItem("currentUser")
-    );
-
-    const newCampaign = {
-      id: Date.now(),
-      title: formData.title,
-      description: formData.description,
-      goal: formData.goal,
-      image: formData.image,
-      creator: currentUser?.name,
-    };
-
-    const existingCampaigns =
-      JSON.parse(localStorage.getItem("campaigns")) || [];
-
-    existingCampaigns.push(newCampaign);
-
-    localStorage.setItem(
-      "campaigns",
-      JSON.stringify(existingCampaigns)
-    );
-
-    alert("Campaign Created Successfully!");
-
-    navigate("/campaigns");
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100">
+
+    <div className="min-h-screen bg-bg">
 
       <Navbar />
 
-      <div className="max-w-3xl mx-auto py-16 px-6">
+      <main className="section-container">
 
-        <div className="bg-white shadow-xl rounded-2xl p-10">
+        <div className="page-container flex justify-center">
 
-          <h1 className="text-4xl font-bold text-gray-800">
-            Start a Fundraiser
-          </h1>
+          <div className="w-full max-w-3xl">
 
-          <p className="text-gray-500 mt-3">
-            Create a campaign and raise support for your cause.
-          </p>
+            {/* HEADER */}
 
-          <form
-            onSubmit={handleSubmit}
-            className="mt-10 space-y-6"
-          >
+            <div className="section-heading">
 
-            {/* Campaign Title */}
-            <div>
+              <div className="badge">
 
-              <label className="block mb-2 text-gray-700">
-                Campaign Title
-              </label>
+                Create Campaign
 
-              <input
+              </div>
+
+              <h1 className="section-title mt-6">
+
+                Start a fundraiser
+
+              </h1>
+
+              <p className="section-subtitle">
+
+                Share your story, upload campaign visuals,
+                and connect with supporters who care.
+
+              </p>
+
+            </div>
+
+            {/* FORM */}
+
+            <form
+              onSubmit={handleSubmit}
+              className="card mt-12 space-y-8 p-8 md:p-10"
+            >
+
+              {/* TITLE */}
+
+              <Input
+                label="Campaign Title"
                 type="text"
                 name="title"
                 placeholder="Enter campaign title"
                 value={formData.title}
                 onChange={handleChange}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
                 required
               />
 
-            </div>
-
-            {/* Description */}
-            <div>
-
-              <label className="block mb-2 text-gray-700">
-                Description
-              </label>
-
-              <textarea
-                rows="5"
-                name="description"
-                placeholder="Describe your campaign"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
-                required
-              ></textarea>
-
-            </div>
-
-            {/* Goal Amount */}
-            <div>
-
-              <label className="block mb-2 text-gray-700">
-                Goal Amount
-              </label>
-
-              <input
-                type="number"
-                name="goal"
-                placeholder="Enter target amount"
-                value={formData.goal}
-                onChange={handleChange}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 outline-none"
-                required
-              />
-
-            </div>
-
-            {/* Upload Image */}
-            <div>
-
-              <label className="block mb-2 text-gray-700">
-                Upload Campaign Image
-              </label>
-
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3"
-                required
-              />
-
-            </div>
-
-            {/* Image Preview */}
-            {formData.image && (
+              {/* DESCRIPTION */}
 
               <div>
 
-                <p className="mb-2 text-gray-700">
-                  Image Preview
-                </p>
+                <label className="label">
 
-                <img
-                  src={formData.image}
-                  alt="preview"
-                  className="w-full h-64 object-cover rounded-xl"
+                  Description
+
+                </label>
+
+                <textarea
+                  name="description"
+                  rows="6"
+                  placeholder="Tell people your story..."
+                  value={formData.description}
+                  onChange={handleChange}
+                  className="input resize-none"
+                  required
                 />
 
               </div>
 
-            )}
+              {/* CATEGORY */}
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl text-lg"
-            >
-              Create Campaign
-            </button>
+              <Input
+                label="Category"
+                type="text"
+                name="category"
+                placeholder="Medical, Education, Community..."
+                value={formData.category}
+                onChange={handleChange}
+                required
+              />
 
-          </form>
+              {/* GOAL */}
+
+              <Input
+                label="Funding Goal"
+                type="number"
+                name="goalAmount"
+                placeholder="Enter amount"
+                value={formData.goalAmount}
+                onChange={handleChange}
+                required
+              />
+
+              {/* DEADLINE */}
+
+              <Input
+                label="Campaign Deadline"
+                type="date"
+                name="deadline"
+                value={formData.deadline}
+                onChange={handleChange}
+              />
+
+              {/* LOCATION */}
+
+              <Input
+                label="Location"
+                type="text"
+                name="location"
+                placeholder="Enter campaign location"
+                value={formData.location}
+                onChange={handleChange}
+              />
+
+              {/* IMAGE UPLOAD */}
+
+              <div>
+
+                <label className="label">
+
+                  Campaign Images
+
+                </label>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleImageChange}
+                  className="input cursor-pointer"
+                  required
+                />
+
+                {/* PREVIEW */}
+
+                {formData.gallery.length > 0 && (
+
+                  <div className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3">
+
+                    {formData.gallery.map(
+                      (image, index) => (
+
+                        <img
+                          key={index}
+                          src={URL.createObjectURL(image)}
+                          alt="Preview"
+                          className="h-32 w-full rounded-2xl object-cover"
+                        />
+
+                      )
+                    )}
+
+                  </div>
+
+                )}
+
+              </div>
+
+              {/* SUBMIT */}
+
+              <Button
+                className="w-full justify-center"
+                disabled={loading}
+              >
+
+                {
+                  loading
+                    ? "Creating campaign..."
+                    : "Create Campaign"
+                }
+
+              </Button>
+
+            </form>
+
+          </div>
 
         </div>
 
-      </div>
+      </main>
 
       <Footer />
 
