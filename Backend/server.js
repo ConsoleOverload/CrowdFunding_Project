@@ -16,7 +16,7 @@ config();
 const app = exp();
 
 app.use(cors({
-  origin:['http://localhost:5173'],
+  origin:['http://localhost:5173','https://crowdfunding-project-z9l7.onrender.com'],
   credentials:true
 }));
 
