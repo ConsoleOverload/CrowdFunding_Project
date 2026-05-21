@@ -4,36 +4,73 @@ import { verifyToken } from "../Middleware/verifyToken.js";
 
 export const adminApp = exp.Router();
 
-// GET all pending campaigns
+
+// ── GET ALL PENDING CAMPAIGNS ────────────────────────────────
 adminApp.get("/campaigns/pending", verifyToken("ADMIN"), async (req, res) => {
-  const campaigns = await Campaign.find({ status: "pending" });
-  res.json(campaigns);
+  try {
+    const campaigns = await Campaign.find({ status: "pending" }).sort({ createdAt: -1 });
+    res.json(campaigns);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-// APPROVE campaign
+
+// ── GET ALL CAMPAIGNS (for admin stats dashboard) ────────────
+// NEW ROUTE: used by Admin page to compute total/approved/rejected counts
+adminApp.get("/campaigns/all", verifyToken("ADMIN"), async (req, res) => {
+  try {
+    const campaigns = await Campaign.find({
+      status: { $ne: "deleted" },
+    }).sort({ createdAt: -1 });
+    res.json(campaigns);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+// ── APPROVE CAMPAIGN ─────────────────────────────────────────
 adminApp.put("/campaigns/approve/:id", verifyToken("ADMIN"), async (req, res) => {
-  const campaign = await Campaign.findByIdAndUpdate(
-    req.params.id,
-    { 
+  try {
+    const campaign = await Campaign.findByIdAndUpdate(
+      req.params.id,
+      {
         status: "approved",
-        "verification.isVerified": true
-     },
-    { new: true }
-  );
+        "verification.isVerified": true,
+      },
+      { new: true }
+    );
 
-  res.json({ message: "Approved", campaign });
+    if (!campaign) {
+      return res.status(404).json({ message: "Campaign not found" });
+    }
+
+    res.json({ message: "Approved", campaign });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-// REJECT campaign
-adminApp.put("/campaigns/reject/:id", verifyToken("ADMIN"), async (req, res) => {
-  const campaign = await Campaign.findByIdAndUpdate(
-    req.params.id,
-    { 
-        status: "rejected",
-        "verification.isVerified": false       
-    },
-    { new: true }
-  );
 
-  res.json({ message: "Rejected", campaign });
+// ── REJECT CAMPAIGN ──────────────────────────────────────────
+adminApp.put("/campaigns/reject/:id", verifyToken("ADMIN"), async (req, res) => {
+  try {
+    const campaign = await Campaign.findByIdAndUpdate(
+      req.params.id,
+      {
+        status: "rejected",
+        "verification.isVerified": false,
+      },
+      { new: true }
+    );
+
+    if (!campaign) {
+      return res.status(404).json({ message: "Campaign not found" });
+    }
+
+    res.json({ message: "Rejected", campaign });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
