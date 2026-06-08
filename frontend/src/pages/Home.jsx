@@ -70,9 +70,7 @@ function Home() {
   return (
     <div className="min-h-screen bg-bg">
       <Navbar />
-<h1 style={{ color: "red" }}>
-  Completed Count: {completedCampaigns.length}
-</h1>
+
       {/* HERO SECTION */}
       <section className="section-container">
         <div className="page-container">
