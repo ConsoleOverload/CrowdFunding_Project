@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getCampaigns } from "../api/campaignApi";
+import CampaignCard from "../components/CampaignCard";
 
 function Home() {
   const navigate = useNavigate();
