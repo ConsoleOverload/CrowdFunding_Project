@@ -17,34 +17,35 @@ function Home() {
   useEffect(() => {
     getCampaigns()
       .then((res) => {
-        const all = res.data?.campaigns || res.data || [];
-        // Filter campaigns that have reached or exceeded their goal
-        const completed = all.filter(
-          (c) => c.status === "completed" || c.raisedAmount >= c.goalAmount
+        const data = res.data;
+        // Match exact same parsing as Campaigns.jsx
+        const all = Array.isArray(data) ? data : data.payload || [];
+
+        // A campaign is completed if:
+        // 1. status is "completed", OR
+        // 2. deadline has passed, OR
+        // 3. raisedAmount >= goalAmount
+        const now = new Date();
+        const completed = all.filter((c) =>
+          c.status === "completed" ||
+          (c.deadline && new Date(c.deadline) < now) ||
+          (c.raisedAmount >= c.goalAmount && c.goalAmount > 0)
         );
+
         setCompletedCampaigns(completed.slice(0, 3));
-        // Use the first completed campaign as featured, or fall back to any campaign
-        setFeaturedCampaign(completed[0] || all[0] || null);
+        setFeaturedCampaign(completed[0] || null);
       })
-      .catch(() => {
-        // Silently fail — static fallback shown below
-      })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   const handleStartFundraiser = () => {
-    if (!user) {
-      navigate("/login");
-    } else {
-      navigate("/create");
-    }
+    if (!user) navigate("/login");
+    else navigate("/create");
   };
 
   const pct = featuredCampaign
-    ? Math.min(
-        Math.round((featuredCampaign.raisedAmount / featuredCampaign.goalAmount) * 100),
-        100
-      )
+    ? Math.min(Math.round((featuredCampaign.raisedAmount / featuredCampaign.goalAmount) * 100), 100)
     : 68;
 
   return (
@@ -111,14 +112,10 @@ function Home() {
                 />
               </div>
 
-              {/* FLOATING CARD — real featured campaign */}
+              {/* FLOATING CARD */}
               <div className="absolute -bottom-8 -left-8 hidden max-w-xs rounded-2xl border border-border bg-surface p-5 shadow-md md:block">
                 <p className="text-sm text-text-muted">
-                  {featuredCampaign
-                    ? (featuredCampaign.raisedAmount >= featuredCampaign.goalAmount
-                        ? "Completed Campaign"
-                        : "Featured Campaign")
-                    : "Featured Campaign"}
+                  {featuredCampaign ? "Completed Campaign" : "Featured Campaign"}
                 </p>
                 <h3 className="mt-3 text-lg font-semibold text-text">
                   {featuredCampaign?.title || "Help build a rural healthcare center"}
@@ -129,7 +126,7 @@ function Home() {
                 <div className="campaign-stats mt-3">
                   <span>
                     {featuredCampaign
-                      ? `₹${(featuredCampaign.raisedAmount / 100000).toFixed(1)}L raised`
+                      ? `₹${Number(featuredCampaign.raisedAmount).toLocaleString("en-IN")} raised`
                       : "₹6.8L raised"}
                   </span>
                   <span>{pct}%</span>
