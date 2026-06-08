@@ -21,10 +21,10 @@ function Home() {
       const all = Array.isArray(data) ? data : data.payload || [];
 
       const now = new Date();
-
-      const completed = all.filter((campaign) => {
-        const statusCompleted =
-          campaign.status?.toLowerCase() === "completed";
+const completed = all.filter(
+  (campaign) =>
+    campaign.status?.trim().toLowerCase() === "completed"
+);
 
         const goalCompleted =
           Number(campaign.raisedAmount || 0) >=
