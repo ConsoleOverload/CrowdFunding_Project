@@ -45,7 +45,9 @@ campaignApp.post(
 campaignApp.get("/", async (req, res) => {
   try {
     const { search } = req.query;
-    let query = { status: "approved" };
+     let query = {
+      status: { $in: ["approved", "completed"] },
+    };
 
     if (search && search.trim() !== "") {
       query.$or = [
