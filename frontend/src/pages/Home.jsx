@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import CampaignCard from "../components/CampaignCard";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { getCampaigns } from "../api/campaignApi";
@@ -14,47 +13,41 @@ function Home() {
   const [featuredCampaign, setFeaturedCampaign] = useState(null);
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  getCampaigns()
-    .then((res) => {
-      const data = res.data;
-      const all = Array.isArray(data) ? data : data.payload || [];
+  useEffect(() => {
+    getCampaigns()
+      .then((res) => {
+        const data = res.data;
 
-      const now = new Date();
-const completed = all.filter(
-  (campaign) =>
-    campaign.status?.trim().toLowerCase() === "completed"
-);
+        const all = Array.isArray(data)
+          ? data
+          : data.payload || [];
 
-        const goalCompleted =
-          Number(campaign.raisedAmount || 0) >=
-            Number(campaign.goalAmount || 0) &&
-          Number(campaign.goalAmount || 0) > 0;
+        console.log("All campaigns:", all);
 
-        const deadlineCompleted =
-          campaign.deadline &&
-          new Date(campaign.deadline) < now;
-
-        return (
-          statusCompleted ||
-          goalCompleted ||
-          deadlineCompleted
+        const completed = all.filter(
+          (campaign) =>
+            campaign.status?.trim().toLowerCase() ===
+            "completed"
         );
+
+        console.log(
+          "Completed campaigns:",
+          completed
+        );
+
+        setCompletedCampaigns(completed);
+        setFeaturedCampaign(completed[0] || null);
+      })
+      .catch((err) => {
+        console.error(
+          "Failed to load campaigns:",
+          err
+        );
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      console.log("All campaigns:", all);
-      console.log("Completed campaigns:", completed);
-
-      setCompletedCampaigns(completed.slice(0, 3));
-      setFeaturedCampaign(completed[0] || null);
-    })
-    .catch((err) => {
-      console.error(err);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-}, []);
+  }, []);
 
   const handleStartFundraiser = () => {
     if (!user) navigate("/login");
@@ -62,7 +55,8 @@ const completed = all.filter(
   };
 
   const pct =
-    featuredCampaign && featuredCampaign.goalAmount > 0
+    featuredCampaign &&
+    featuredCampaign.goalAmount > 0
       ? Math.min(
           Math.round(
             (featuredCampaign.raisedAmount /
@@ -81,7 +75,6 @@ const completed = all.filter(
       <section className="section-container">
         <div className="page-container">
           <div className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-
             {/* LEFT CONTENT */}
             <div>
               <div className="inline-flex items-center rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-muted shadow-sm">
@@ -89,13 +82,17 @@ const completed = all.filter(
               </div>
 
               <h1 className="mt-8 max-w-2xl text-balance">
-                Raise funds for meaningful causes with transparency and trust.
+                Raise funds for meaningful causes
+                with transparency and trust.
               </h1>
 
               <p className="mt-8 max-w-xl text-lg leading-relaxed text-text-muted">
-                Support medical emergencies, education, social initiatives,
-                startups, and community-driven campaigns through a platform
-                built around credibility and human impact.
+                Support medical emergencies,
+                education, social initiatives,
+                startups, and community-driven
+                campaigns through a platform built
+                around credibility and human
+                impact.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -114,7 +111,6 @@ const completed = all.filter(
                 </Link>
               </div>
 
-              {/* STATS */}
               <div className="mt-14 flex flex-wrap gap-10 border-t border-border pt-8">
                 <div>
                   <p className="text-3xl font-semibold text-text">
@@ -150,7 +146,11 @@ const completed = all.filter(
               <div className="relative">
                 <div className="card overflow-hidden">
                   <img
-                    src={featuredCampaign.media?.coverImage}
+                    src={
+                      featuredCampaign.media
+                        ?.coverImage ||
+                      "https://placehold.co/1200x600?text=Campaign"
+                    }
                     alt={featuredCampaign.title}
                     className="h-[500px] w-full object-cover"
                   />
@@ -168,7 +168,9 @@ const completed = all.filter(
                   <div className="mt-5 campaign-progress">
                     <div
                       className="campaign-progress-bar"
-                      style={{ width: `${pct}%` }}
+                      style={{
+                        width: `${pct}%`,
+                      }}
                     />
                   </div>
 
@@ -177,7 +179,9 @@ const completed = all.filter(
                       ₹
                       {Number(
                         featuredCampaign.raisedAmount
-                      ).toLocaleString("en-IN")}{" "}
+                      ).toLocaleString(
+                        "en-IN"
+                      )}{" "}
                       raised
                     </span>
                     <span>{pct}%</span>
@@ -190,50 +194,67 @@ const completed = all.filter(
       </section>
 
       {/* COMPLETED CAMPAIGNS */}
-      {!loading && completedCampaigns.length > 0 && (
-    {/* COMPLETED CAMPAIGNS */}
-<section className="section-container">
-  <div className="page-container">
-    <div className="flex items-end justify-between">
-      <div>
-        <p className="text-sm font-medium uppercase tracking-wider text-text-muted">
-          Success Stories
-        </p>
-        <h2 className="mt-2">Completed Campaigns</h2>
-      </div>
-    </div>
+      {!loading &&
+        completedCampaigns.length > 0 && (
+          <section className="section-container">
+            <div className="page-container">
+              <div className="flex items-end justify-between">
+                <div>
+                  <p className="text-sm font-medium uppercase tracking-wider text-text-muted">
+                    Success Stories
+                  </p>
 
-    <div className="mt-10">
-      <p>Total Completed Campaigns: {completedCampaigns.length}</p>
-    </div>
+                  <h2 className="mt-2">
+                    Completed Campaigns
+                  </h2>
+                </div>
+              </div>
 
-    <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-      {completedCampaigns.map((campaign) => (
-        <div
-          key={campaign._id}
-          className="rounded-xl border border-border p-5 bg-surface"
-        >
-          <h3 className="text-lg font-semibold">
-            {campaign.title}
-          </h3>
+              <div className="mt-10">
+                <p>
+                  Total Completed Campaigns:{" "}
+                  {
+                    completedCampaigns.length
+                  }
+                </p>
+              </div>
 
-          <p className="mt-2 text-sm">
-            Status: {campaign.status}
-          </p>
+              <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {completedCampaigns.map(
+                  (campaign) => (
+                    <div
+                      key={campaign._id}
+                      className="rounded-xl border border-border p-5 bg-surface"
+                    >
+                      <h3 className="text-lg font-semibold">
+                        {campaign.title}
+                      </h3>
 
-          <p className="mt-2 text-sm">
-            Goal: ₹{campaign.goalAmount}
-          </p>
+                      <p className="mt-2 text-sm">
+                        Status:{" "}
+                        {campaign.status}
+                      </p>
 
-          <p className="mt-2 text-sm">
-            Raised: ₹{campaign.raisedAmount}
-          </p>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-      )}
+                      <p className="mt-2 text-sm">
+                        Goal: ₹
+                        {
+                          campaign.goalAmount
+                        }
+                      </p>
+
+                      <p className="mt-2 text-sm">
+                        Raised: ₹
+                        {
+                          campaign.raisedAmount
+                        }
+                      </p>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
       <Footer />
     </div>
