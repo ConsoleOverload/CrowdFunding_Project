@@ -193,68 +193,49 @@ function Home() {
         </div>
       </section>
 
-      {/* COMPLETED CAMPAIGNS */}
-      {!loading &&
-        completedCampaigns.length > 0 && (
-          <section className="section-container">
-            <div className="page-container">
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-sm font-medium uppercase tracking-wider text-text-muted">
-                    Success Stories
-                  </p>
+     {/* COMPLETED CAMPAIGNS */}
+{!loading && completedCampaigns.length > 0 && (
+  <section className="section-container">
+    <div className="page-container">
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-sm font-medium uppercase tracking-wider text-text-muted">
+            Success Stories
+          </p>
 
-                  <h2 className="mt-2">
-                    Completed Campaigns
-                  </h2>
-                </div>
-              </div>
+          <h2 className="mt-2">
+            Completed Campaigns
+          </h2>
+        </div>
 
-              <div className="mt-10">
-                <p>
-                  Total Completed Campaigns:{" "}
-                  {
-                    completedCampaigns.length
-                  }
-                </p>
-              </div>
+        <Link
+          to="/campaigns"
+          className="btn-secondary hidden sm:inline-flex"
+        >
+          View All
+        </Link>
+      </div>
 
-              <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                {completedCampaigns.map(
-                  (campaign) => (
-                    <div
-                      key={campaign._id}
-                      className="rounded-xl border border-border p-5 bg-surface"
-                    >
-                      <h3 className="text-lg font-semibold">
-                        {campaign.title}
-                      </h3>
+      <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {completedCampaigns.map((campaign) => (
+          <CampaignCard
+            key={campaign._id}
+            campaign={campaign}
+          />
+        ))}
+      </div>
 
-                      <p className="mt-2 text-sm">
-                        Status:{" "}
-                        {campaign.status}
-                      </p>
-
-                      <p className="mt-2 text-sm">
-                        Goal: ₹
-                        {
-                          campaign.goalAmount
-                        }
-                      </p>
-
-                      <p className="mt-2 text-sm">
-                        Raised: ₹
-                        {
-                          campaign.raisedAmount
-                        }
-                      </p>
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          </section>
-        )}
+      <div className="mt-8 flex justify-center sm:hidden">
+        <Link
+          to="/campaigns"
+          className="btn-secondary"
+        >
+          View All Campaigns
+        </Link>
+      </div>
+    </div>
+  </section>
+)}
 
       <Footer />
     </div>
