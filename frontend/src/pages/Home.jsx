@@ -14,28 +14,47 @@ function Home() {
   const [featuredCampaign, setFeaturedCampaign] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    getCampaigns()
-      .then((res) => {
-        const data = res.data;
-        const all = Array.isArray(data) ? data : data.payload || [];
+ useEffect(() => {
+  getCampaigns()
+    .then((res) => {
+      const data = res.data;
+      const all = Array.isArray(data) ? data : data.payload || [];
 
-        // Only completed campaigns
-        const completed = all.filter(
-          (campaign) =>
-            campaign.status?.toLowerCase() === "completed"
+      const now = new Date();
+
+      const completed = all.filter((campaign) => {
+        const statusCompleted =
+          campaign.status?.toLowerCase() === "completed";
+
+        const goalCompleted =
+          Number(campaign.raisedAmount || 0) >=
+            Number(campaign.goalAmount || 0) &&
+          Number(campaign.goalAmount || 0) > 0;
+
+        const deadlineCompleted =
+          campaign.deadline &&
+          new Date(campaign.deadline) < now;
+
+        return (
+          statusCompleted ||
+          goalCompleted ||
+          deadlineCompleted
         );
-
-        setCompletedCampaigns(completed.slice(0, 3));
-        setFeaturedCampaign(completed[0] || null);
-      })
-      .catch((err) => {
-        console.error("Failed to load campaigns:", err);
-      })
-      .finally(() => {
-        setLoading(false);
       });
-  }, []);
+
+      console.log("All campaigns:", all);
+      console.log("Completed campaigns:", completed);
+
+      setCompletedCampaigns(completed.slice(0, 3));
+      setFeaturedCampaign(completed[0] || null);
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
+}, []);
 
   const handleStartFundraiser = () => {
     if (!user) navigate("/login");
