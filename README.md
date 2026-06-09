@@ -21,6 +21,12 @@ This platform is designed to simulate a real-world crowdfunding ecosystem simila
 
 ---
 
+## 🔗 Live Demo
+- Frontend: [https://crowdfunding-frontend.vercel.app](https://crowdfunding-project-z9l7.onrender.com)
+- Backend API: [https://crowdfunding-project-z9l7.onrender.com](https://crowdfunding-backend-9jxx.onrender.com)
+
+---
+
 # Core Functionalities
 
 ## Authentication & Authorization
